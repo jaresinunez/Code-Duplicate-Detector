@@ -3,6 +3,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -14,6 +18,8 @@ import javax.swing.JFileChooser;
  */
 public class CodeDuplicateDetector extends javax.swing.JFrame {
 
+    boolean buttonClicked = false;
+    String fileData = "";
     /**
      * Creates new form CodeDuplicateDetector
      */
@@ -35,49 +41,75 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
+        button2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Code Duplication Detector");
+        setBackground(new java.awt.Color(255, 255, 255));
         setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         setResizable(false);
 
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Please submit a file below.");
+        jLabel1.setText("Please submit a file.");
         jLabel1.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
 
+        button1.setBackground(new java.awt.Color(236, 236, 253));
+        button1.setFont(new java.awt.Font("Myanmar Text", 1, 12)); // NOI18N
         button1.setText("Submit Files");
+        button1.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(204, 204, 255)));
         button1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 button1ActionPerformed(evt);
             }
         });
 
+        jLabel2.setBackground(new java.awt.Color(204, 204, 255));
+        jLabel2.setFont(new java.awt.Font("Rockwell", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jLabel2.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(204, 204, 255), new java.awt.Color(153, 153, 255)), javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(204, 204, 255))));
 
         jTextArea2.setEditable(false);
+        jTextArea2.setBackground(new java.awt.Color(255, 255, 255));
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
+        jTextArea2.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED, new java.awt.Color(204, 204, 255), new java.awt.Color(153, 153, 255)), javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(204, 204, 255))));
+        jTextArea2.setSelectionColor(new java.awt.Color(204, 204, 255));
         jScrollPane2.setViewportView(jTextArea2);
+
+        button2.setBackground(new java.awt.Color(229, 229, 255));
+        button2.setText("Scan for Duplication");
+        button2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(87, 87, 87)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(403, 403, 403)
-                            .addComponent(button1)
-                            .addGap(80, 80, 80)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(87, 87, 87)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 744, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jScrollPane2)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 744, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(96, 96, 96))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(button2)
+                .addGap(393, 393, 393))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(397, 397, 397)
+                        .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(328, 328, 328)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -85,12 +117,14 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(62, 62, 62)
+                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(button2)
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         pack();
@@ -103,7 +137,7 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
             JFileChooser submit_file = new JFileChooser();
             
            int response = submit_file.showOpenDialog(null);
-           //int responseSave = submit_file.showSaveDialog(null);
+           // int responseSave = submit_file.showSaveDialog(null);
            
            if(response == JFileChooser.APPROVE_OPTION)
            {
@@ -116,7 +150,7 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
                     Logger.getLogger(CodeDuplicateDetector.class.getName()).log(Level.SEVERE, null, ex);
                 }
         
-        String fileData = "";
+      //  String fileData = "";
         
         int c; 
                 try {
@@ -134,9 +168,85 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
                jTextArea2.setText(fileData);
            }
 
+           buttonClicked = true;
         }
     }//GEN-LAST:event_button1ActionPerformed
 
+    private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
+        
+                if (evt.getSource()==button2 && buttonClicked == false )
+        {
+            jTextArea2.setText("   Please choose a file first! ");
+        }
+        
+        if (evt.getSource()==button2 && buttonClicked == true )
+        {
+          //  jTextArea2.setText("yoo");
+            
+            
+String[] elements = fileData.split("[;\\r\\n\"]");
+
+
+// step two : convert String array to list of String
+List<String> fixedLenghtList = Arrays.asList(elements);
+
+// step three : copy fixed list to an ArrayList
+ArrayList<String> listOfDuplicates = new ArrayList<String>(fixedLenghtList);
+
+//listOfDuplicates = listOfDuplicates.replaceAll("\n", " ");
+
+listOfDuplicates.removeIf(s -> s.contains("}"));
+listOfDuplicates.removeIf(s -> s.contains("{"));
+listOfDuplicates.removeIf(s -> s.contains("/**"));
+listOfDuplicates.removeIf(s -> s.contains("*/"));
+listOfDuplicates.removeIf(s -> s.contains("/*"));
+listOfDuplicates.removeIf(s -> s.contains("]"));
+listOfDuplicates.removeIf(s -> s.contains("["));
+listOfDuplicates.removeIf(s -> s.contains("license"));
+listOfDuplicates.removeIf(s -> s.contains("@"));
+listOfDuplicates.removeIf(s -> s.contains("\\s"));
+
+listOfDuplicates.remove(" ");
+
+ArrayList<String> listOfDuplicatesCopy = new ArrayList<String>(fixedLenghtList);
+
+int dupCount = 0;
+
+for (int i = 0; i < listOfDuplicates.size()-1; i++) 
+{
+   // String itemI = listOfDuplicates.get(i);
+  for (int j = i+1; j < listOfDuplicates.size(); j++) 
+  {
+     // String itemJ = listOfDuplicates.get(j);
+      // listOfDuplicates.get(i) == listOfDuplicates.get(j)
+      //listOfDuplicates.get(i).contains(listOfDuplicates.get(j))
+    if (listOfDuplicates.get(i) == listOfDuplicates.get(j)) 
+    {
+        System.out.println("Duplicate string: " + listOfDuplicates.get(i) + "and " + listOfDuplicates.get(j) );
+        
+        listOfDuplicatesCopy.add(listOfDuplicates.get(i));
+        listOfDuplicatesCopy.add(listOfDuplicates.get(j));
+        dupCount ++;
+  }
+    
+}}
+
+int sizeCount = listOfDuplicates.size() ;
+int TotalDupl = sizeCount / dupCount;
+
+
+
+System.out.println("DupeCount: " + dupCount + "\n The duplicate code found is: " +listOfDuplicatesCopy +
+        "\nThe total duplicate code found is " + TotalDupl + " or %" + TotalDupl*100);
+
+System.out.println("list from comma separated String : " + listOfDuplicates);
+
+System.out.println("size of ArrayList : " + listOfDuplicates.size());
+// jTextArea2.setText("The tokens : " + listOfDuplicates);
+    }//GEN-LAST:event_button2ActionPerformed
+    }
+    
+    
     private void stringDuplicatePercent()
     {
         
@@ -180,6 +290,7 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton button1;
+    private javax.swing.JButton button2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane2;
