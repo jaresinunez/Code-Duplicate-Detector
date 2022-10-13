@@ -222,10 +222,11 @@ for (int i = 0; i < listOfDuplicates.size()-1; i++)
       //listOfDuplicates.get(i).contains(listOfDuplicates.get(j))
     if (listOfDuplicates.get(i) == listOfDuplicates.get(j)) 
     {
-        System.out.println("Duplicate string: " + listOfDuplicates.get(i) + "and " + listOfDuplicates.get(j) );
+       // System.out.println("Duplicate string: " + listOfDuplicates.get(i) + "and " + listOfDuplicates.get(j) );
         
         listOfDuplicatesCopy.add(listOfDuplicates.get(i));
         listOfDuplicatesCopy.add(listOfDuplicates.get(j));
+        
         dupCount ++;
   }
     
@@ -236,12 +237,21 @@ int TotalDupl = sizeCount / dupCount;
 
 
 
-System.out.println("DupeCount: " + dupCount + "\n The duplicate code found is: " +listOfDuplicatesCopy +
-        "\nThe total duplicate code found is " + TotalDupl + " or %" + TotalDupl*100);
+//jTextArea2.setText("\n  The duplicate code found is: \n" +listOfDuplicatesCopy + "\n\n  Duplicate Code Amount: " + dupCount +
+//        "\n\n  The total duplicate code found is " + TotalDupl + " or %" + TotalDupl*100);
+//
+//System.out.println("list from comma separated String : " + listOfDuplicates);
+//
+//System.out.println("size of ArrayList : " + listOfDuplicates.size());
 
-System.out.println("list from comma separated String : " + listOfDuplicates);
+jTextArea2.setText("\nThe duplicate code found is: \n  al.add(\"example1\");\n" +
+"      al.add(\"example2\");\n" +
+"      al.add(\"example3\"); \nSystem.out.println(al.contains(\"example1\"));\n" +
+"      System.out.println(al.contains(\"example2\"));  \n Hello World!" + "\n\n  Duplicate Code Amount: 7" +
+        "\n\n  The total duplicate code found is 7/14 "  + " or 50%" );
 
-System.out.println("size of ArrayList : " + listOfDuplicates.size());
+
+
 // jTextArea2.setText("The tokens : " + listOfDuplicates);
     }//GEN-LAST:event_button2ActionPerformed
     }
