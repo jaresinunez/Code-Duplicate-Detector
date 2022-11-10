@@ -1,4 +1,3 @@
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -8,13 +7,11 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import projectClasses.*;
 
-
 /**
  *
  * @author kgonz
  */
 public class CodeDuplicateDetector extends javax.swing.JFrame {
-
     /**
      * Creates new form CodeDuplicateDetector
      */
@@ -101,7 +98,7 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
                 
         if (evt.getSource()==button1)
         {
-            JFileChooser submit_file = new JFileChooser();
+           JFileChooser submit_file = new JFileChooser();
             
            int response = submit_file.showOpenDialog(null);
            //int responseSave = submit_file.showSaveDialog(null);
@@ -111,8 +108,8 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
                File path = new File(filePath);
                
                if(fileType(filePath).equals("java")){
-                   JavaFile file = new JavaFile(filePath);
-                   
+                   JavaFile javaFile = new JavaFile(filePath);
+                   javaFile.scan();
                }
                
                FileReader fr = null; 
