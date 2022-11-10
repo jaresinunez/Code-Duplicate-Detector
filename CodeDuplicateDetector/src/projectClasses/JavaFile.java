@@ -9,7 +9,7 @@ package projectClasses;
  * This object represents a .java file uploaded by the user
  */
 public class JavaFile extends File{
-    JavaFile(String n){
+    public JavaFile(String n){
         super(n);
     }
     
