@@ -8,8 +8,8 @@ package projectClasses;
  * @author jares
  * This object represents a .java file uploaded by the user
  */
-public class Java extends File{
-    Java(String n){
+public class JavaFile extends File{
+    JavaFile(String n){
         super(n);
     }
     
