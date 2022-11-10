@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import projectClasses.*;
 
 
 /**
@@ -105,35 +106,40 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
            int response = submit_file.showOpenDialog(null);
            //int responseSave = submit_file.showSaveDialog(null);
            
-           if(response == JFileChooser.APPROVE_OPTION)
-           {
-               File path = new File(submit_file.getSelectedFile().getAbsolutePath());
+           if(response == JFileChooser.APPROVE_OPTION){
+               String filePath = submit_file.getSelectedFile().getAbsolutePath();
+               File path = new File(filePath);
                
-        FileReader fr = null; 
-                try {
-                    fr = new FileReader(path);
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(CodeDuplicateDetector.class.getName()).log(Level.SEVERE, null, ex);
-                }
-        
-        String fileData = "";
-        
-        int c; 
-                try {
-                    while((c=fr.read()) != -1) 
-                        fileData += (char)c;
-                } catch (IOException ex) {
-                    Logger.getLogger(CodeDuplicateDetector.class.getName()).log(Level.SEVERE, null, ex);
-                }
+               if(fileType(filePath).equals("java")){
+                   JavaFile file = new JavaFile(filePath);
+                   
+               }
+               
+               FileReader fr = null; 
+               try {
+                   fr = new FileReader(path);
+               } catch (FileNotFoundException ex) {
+                   Logger.getLogger(CodeDuplicateDetector.class.getName()).log(Level.SEVERE, null, ex);
+               }
+       
+               String fileData = "";
+
+               int c; 
+                
+               try {
+                   while((c=fr.read()) != -1) 
+                       fileData += (char)c;
+               } catch (IOException ex) {
+                   Logger.getLogger(CodeDuplicateDetector.class.getName()).log(Level.SEVERE, null, ex);
+               }
+                
                System.out.println("Opening source file from the path-> "+path);
                System.out.println(fileData);
-    
-               
+
                jLabel1.setText("File submitted!");
                jLabel2.setText("Opening  " + path);
                jTextArea2.setText(fileData);
            }
-
         }
     }//GEN-LAST:event_button1ActionPerformed
 
@@ -142,7 +148,18 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
         
     }
     
-    
+    public String fileType(String path){
+        String type = "";
+        
+        for (int i = path.length(); i > 0; i--){
+            if (path.charAt(i) != '.')
+                type = i + type;
+            else
+                break;
+        }
+        
+        return type;
+    }
     /**
      * @param args the command line arguments
      */
