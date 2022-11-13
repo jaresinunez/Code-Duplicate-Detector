@@ -8,13 +8,19 @@ package projectClasses;
  * @author jares
  * This object represents a .java file uploaded by the user
  */
-public class JavaFile extends File{
-    public JavaFile(String n){
+public class JavaFile extends Files
+{
+
+    public JavaFile(String n)
+    {
         super(n);
     }
     
-    public void scan(){
-        //TODO: scan the .java file for duplicates and add to the
-        //file's duplicates list
-    }
+    public static String scan()
+    {
+        
+        //TODO: scan the .java file for duplicates and add to the file's duplicates list
+        String test = "test";
+        return test;
+}
 }

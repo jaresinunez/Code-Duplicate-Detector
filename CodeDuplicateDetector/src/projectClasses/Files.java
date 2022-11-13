@@ -4,22 +4,30 @@
  */
 package projectClasses;
 import java.util.List;
+
 /**
  * @author jares
  * This object represents the file the user uploads and will track the 
  * name, language, and list of found duplicates
  */
-public class File {
+public class Files {
     String name = null;
     List<Duplicate> duplicateList = null;
+//    
+//    Files () 
+//    {
+//    
+//    }
     
-    File () {}
-    File (String n) {
+    public Files (String n) 
+    {
         name = n;
     }
     
-    public void Download(String newFileName) {
+    public void Download(String newFileName) 
+    {
         //TODO: Allow user to download new file under specified name
+        
     }
     
     public void setName(String n) { this.name = n; }
@@ -31,4 +39,5 @@ public class File {
         //TODO: iterate through list of duplicates prompting the user to indivate
         //weather or not they would like to resolve duplicate at each index and doing so
     }
+   
 }

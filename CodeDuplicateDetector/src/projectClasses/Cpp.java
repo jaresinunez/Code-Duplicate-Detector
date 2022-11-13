@@ -8,7 +8,7 @@ package projectClasses;
  * @author jares
  * This object represents a C++ file uploaded by the user
  */
-public class Cpp extends File {
+public class Cpp extends Files {
     Cpp(String n){
         super(n);
     }

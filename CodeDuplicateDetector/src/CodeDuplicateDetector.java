@@ -11,12 +11,21 @@ import projectClasses.*;
  *
  * @author kgonz
  */
-public class CodeDuplicateDetector extends javax.swing.JFrame {
+public class CodeDuplicateDetector extends javax.swing.JFrame 
+{
+    boolean buttonClicked = false; //TODO remove, not needed maybe
+    String fileData = "";
+    
     /**
      * Creates new form CodeDuplicateDetector
      */
-    public CodeDuplicateDetector() {
+    public CodeDuplicateDetector() 
+    {
         initComponents();
+        //TODO update use cases,  should not be any errors with choosing scan for duplication since 
+        //button doesnt appear until subimitted files
+        button3.setVisible(false);  
+        button2.setVisible(false);  
     }
 
     /**
@@ -33,6 +42,8 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
+        button2 = new javax.swing.JButton();
+        button3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -58,50 +69,75 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
         jTextArea2.setRows(5);
         jScrollPane2.setViewportView(jTextArea2);
 
+        button2.setText("Scan to Detect Duplication");
+        button2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button2ActionPerformed(evt);
+            }
+        });
+
+        button3.setText("Save Changes");
+        button3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(87, 87, 87)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(403, 403, 403)
-                            .addComponent(button1)
-                            .addGap(80, 80, 80)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(87, 87, 87)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 744, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jScrollPane2)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 744, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(96, 96, 96))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(404, 404, 404)
+                        .addComponent(button1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(325, 325, 325)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(371, 371, 371)
+                        .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
+                .addGap(25, 25, 25)
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(62, 62, 62)
+                .addGap(18, 18, 18)
+                .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
-                
+           
+            
         if (evt.getSource()==button1)
         {
            JFileChooser submit_file = new JFileChooser();
             
            int response = submit_file.showOpenDialog(null);
-           //int responseSave = submit_file.showSaveDialog(null);
+          // int responseSave = submit_file.showSaveDialog(null);
            
            if(response == JFileChooser.APPROVE_OPTION){
                String filePath = submit_file.getSelectedFile().getAbsolutePath();
@@ -110,6 +146,7 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
                if(fileType(filePath).equals("java")){
                    JavaFile javaFile = new JavaFile(filePath);
                    javaFile.scan();
+                   button2.setVisible(true);  
                }
                
                FileReader fr = null; 
@@ -119,8 +156,8 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
                    Logger.getLogger(CodeDuplicateDetector.class.getName()).log(Level.SEVERE, null, ex);
                }
        
-               String fileData = "";
-
+               //String fileData = "";
+               
                int c; 
                 
                try {
@@ -129,6 +166,8 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
                } catch (IOException ex) {
                    Logger.getLogger(CodeDuplicateDetector.class.getName()).log(Level.SEVERE, null, ex);
                }
+               
+               JavaFile fileDataCode = new JavaFile(fileData);
                 
                System.out.println("Opening source file from the path-> "+path);
                System.out.println(fileData);
@@ -138,23 +177,55 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
                jTextArea2.setText(fileData);
            }
         }
+        
+        buttonClicked = true;
     }//GEN-LAST:event_button1ActionPerformed
+
+    
+    private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
+      //TODO differentiate if java or cpp file type to call correct scan method in correct class
+        if (evt.getSource()==button2 && buttonClicked == true)
+        {
+            //calls ths JavaFile class method to scan the java file
+           jTextArea2.setText(JavaFile.scan());
+           button3.setVisible(true);  
+        }  
+       else
+        {
+            jTextArea2.setText("   Please choose a file first! ");
+        }
+    }//GEN-LAST:event_button2ActionPerformed
+
+    private void button3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button3ActionPerformed
+
+        Files saveFile = new Files(fileData);
+        saveFile.Download(fileData);
+    }//GEN-LAST:event_button3ActionPerformed
 
     private void stringDuplicatePercent()
     {
-        
+                
     }
     
-    public String fileType(String path){
+    public String fileType(String path)
+    {
         String type = "";
         
-        for (int i = path.length(); i > 0; i--){
-            if (path.charAt(i) != '.')
-                type = i + type;
-            else
-                break;
+        if(path.endsWith(".java"))
+        {
+            type = "java";
         }
-        
+         else if (path.endsWith(".cpp"))
+        {
+            type = "cpp";
+        }
+        else
+        {
+            //TODO MAKE PRINTLN TO WINDOW TEXT AREA OR MAYBE AS A POP UP AND
+            //DONT ALLOW TEXT TO SHOW IN TEXT AREA
+           System.out.println("Error! Please submit a java or cpp file! ");
+          // System.exit(0);
+        }
         return type;
     }
     /**
@@ -190,10 +261,13 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
                 new CodeDuplicateDetector().setVisible(true);
             }
         });
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton button1;
+    private javax.swing.JButton button2;
+    private javax.swing.JButton button3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane2;
