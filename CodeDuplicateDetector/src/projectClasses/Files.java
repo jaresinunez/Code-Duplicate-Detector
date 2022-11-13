@@ -19,14 +19,17 @@ public class Files {
 //    
 //    }
     
-    public Files (String n) 
-    {
+    public Files (String n) {
         name = n;
     }
     
     public void Download(String newFileName) 
     {
         //TODO: Allow user to download new file under specified name
+        
+    }
+    
+    public void scan() {
         
     }
     

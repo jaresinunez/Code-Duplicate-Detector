@@ -15,6 +15,10 @@ public class CodeDuplicateDetector extends javax.swing.JFrame
 {
     boolean buttonClicked = false; //TODO remove, not needed maybe
     String fileData = "";
+    String filePath;
+    File path;
+    Boolean isJavaFile = false;
+    Boolean isCppFile = false;
     
     /**
      * Creates new form CodeDuplicateDetector
@@ -130,50 +134,44 @@ public class CodeDuplicateDetector extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
-           
-            
         if (evt.getSource()==button1)
         {
            JFileChooser submit_file = new JFileChooser();
             
            int response = submit_file.showOpenDialog(null);
-          // int responseSave = submit_file.showSaveDialog(null);
+           // int responseSave = submit_file.showSaveDialog(null);
            
            if(response == JFileChooser.APPROVE_OPTION){
-               String filePath = submit_file.getSelectedFile().getAbsolutePath();
-               File path = new File(filePath);
+               filePath = submit_file.getSelectedFile().getAbsolutePath();
+               path = new File(filePath);
                
                if(fileType(filePath).equals("java")){
+                   isJavaFile = true;
                    JavaFile javaFile = new JavaFile(filePath);
                    javaFile.scan();
                    button2.setVisible(true);  
                }
-               
-               FileReader fr = null; 
+               FileReader fr = null;
                try {
                    fr = new FileReader(path);
                } catch (FileNotFoundException ex) {
                    Logger.getLogger(CodeDuplicateDetector.class.getName()).log(Level.SEVERE, null, ex);
                }
-       
-               //String fileData = "";
-               
-               int c; 
-                
+               int c;
                try {
                    while((c=fr.read()) != -1) 
                        fileData += (char)c;
                } catch (IOException ex) {
                    Logger.getLogger(CodeDuplicateDetector.class.getName()).log(Level.SEVERE, null, ex);
                }
-               
+
                JavaFile fileDataCode = new JavaFile(fileData);
-                
+               
                System.out.println("Opening source file from the path-> "+path);
                System.out.println(fileData);
-
+               
                jLabel1.setText("File submitted!");
-               jLabel2.setText("Opening  " + path);
+               jLabel2.setText("Opening " + path);
                jTextArea2.setText(fileData);
            }
         }
@@ -184,14 +182,16 @@ public class CodeDuplicateDetector extends javax.swing.JFrame
     
     private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
       //TODO differentiate if java or cpp file type to call correct scan method in correct class
-        if (evt.getSource()==button2 && buttonClicked == true)
-        {
+        if (evt.getSource()==button2 && buttonClicked == true){
             //calls ths JavaFile class method to scan the java file
-           jTextArea2.setText(JavaFile.scan());
-           button3.setVisible(true);  
+            if (isJavaFile){
+                JavaFile javaFile = new JavaFile(filePath);
+                jTextArea2.setText(fileData);
+                javaFile.scan();
+                button3.setVisible(true); 
+            } else if (isCppFile) {}
         }  
-       else
-        {
+        else{
             jTextArea2.setText("   Please choose a file first! ");
         }
     }//GEN-LAST:event_button2ActionPerformed
