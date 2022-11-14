@@ -12,5 +12,8 @@ package projectClasses;
 class Duplicate {
     Boolean resolve = false;
        
-    Duplicate(Boolean fix) { this.resolve = fix; }
+    Duplicate(Boolean fix) 
+    {
+        this.resolve = fix; 
+    }
 }

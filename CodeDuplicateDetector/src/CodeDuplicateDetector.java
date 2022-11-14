@@ -1,6 +1,8 @@
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +21,7 @@ public class CodeDuplicateDetector extends javax.swing.JFrame
     File path;
     Boolean isJavaFile = false;
     Boolean isCppFile = false;
+    JFileChooser submit_file = new JFileChooser();
     
     /**
      * Creates new form CodeDuplicateDetector
@@ -30,6 +33,11 @@ public class CodeDuplicateDetector extends javax.swing.JFrame
         //button doesnt appear until subimitted files
         button3.setVisible(false);  
         button2.setVisible(false);  
+        jTextArea1.setVisible(false); 
+        jTextArea1.setEnabled(false); 
+        CodeDuplicateDetector.this.revalidate();
+ CodeDuplicateDetector.this.repaint();
+        
     }
 
     /**
@@ -48,6 +56,8 @@ public class CodeDuplicateDetector extends javax.swing.JFrame
         jTextArea2 = new javax.swing.JTextArea();
         button2 = new javax.swing.JButton();
         button3 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -68,7 +78,6 @@ public class CodeDuplicateDetector extends javax.swing.JFrame
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jTextArea2.setEditable(false);
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
         jScrollPane2.setViewportView(jTextArea2);
@@ -87,46 +96,57 @@ public class CodeDuplicateDetector extends javax.swing.JFrame
             }
         });
 
+        jTextArea1.setEditable(false);
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(87, 87, 87)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 744, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(96, 96, 96))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(87, 87, 87)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 744, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(371, 371, 371)
+                        .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(404, 404, 404)
                         .addComponent(button1))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(325, 325, 325)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(371, 371, 371)
-                        .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 512, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(38, Short.MAX_VALUE))
         );
 
@@ -136,7 +156,7 @@ public class CodeDuplicateDetector extends javax.swing.JFrame
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
         if (evt.getSource()==button1)
         {
-           JFileChooser submit_file = new JFileChooser();
+           
             
            int response = submit_file.showOpenDialog(null);
            // int responseSave = submit_file.showSaveDialog(null);
@@ -189,7 +209,19 @@ public class CodeDuplicateDetector extends javax.swing.JFrame
                 jTextArea2.setText(fileData);
                 javaFile.scan();
                 button3.setVisible(true); 
-            } else if (isCppFile) {}
+               jTextArea1.setVisible(true); 
+                jTextArea1.setEnabled(true); 
+                 //TODO below is the results of the similiarity or duplication detected (%) and which lines it occured 
+                //in and will appear in the textArea on the right once the user clicks "scan" for the java files
+                //jTextArea1.setText(Dulpicate.resolve());
+               
+            } else if (isCppFile) 
+            {
+                 //TODO below is the results of the similiarity or duplication detected (%) and which lines it occured 
+                //in and will appear in the textArea on the right once the user clicks "scan" for the C files
+               // jTextArea1.setText(Dulpicate.resolve());
+            }
+            
         }  
         else{
             jTextArea2.setText("   Please choose a file first! ");
@@ -200,6 +232,31 @@ public class CodeDuplicateDetector extends javax.swing.JFrame
 
         Files saveFile = new Files(fileData);
         saveFile.Download(fileData);
+        
+        //TODO IF you make edits, then click scan for duplication, the changes made in the text area dissappear. 
+        //BUT this works only after hitting scan then making edits and saving. Fix!!
+        
+        //Below, this allows the user to save any edited changes to the main middle textArea to the same file selected
+       File fileName = new File(path+ "");
+      
+      BufferedWriter outFile = null;
+      
+      try {
+         outFile = new BufferedWriter(new FileWriter(fileName));
+
+         jTextArea2.write(outFile); 
+
+      } catch (IOException ex) {
+         ex.printStackTrace();
+      } finally {
+         if (outFile != null) {
+            try {
+               outFile.close();
+            } catch (IOException e) {
+               // the one time that I think that it's okay to leave this exception blank
+            }
+         }
+      }
     }//GEN-LAST:event_button3ActionPerformed
 
     private void stringDuplicatePercent()
@@ -270,7 +327,9 @@ public class CodeDuplicateDetector extends javax.swing.JFrame
     private javax.swing.JButton button3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     // End of variables declaration//GEN-END:variables
 }
