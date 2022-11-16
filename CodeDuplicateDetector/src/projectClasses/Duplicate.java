@@ -10,10 +10,15 @@ package projectClasses;
  * will store the type of duplicate that occurred
  */
 class Duplicate {
-    Boolean resolve = false;
+    Boolean resolve;
+    String dupe = "";
        
-    Duplicate(Boolean fix) 
-    {
+    public Duplicate(Boolean fix, String duplicate) {
         this.resolve = fix; 
+        dupe = duplicate;
+    }
+    
+    public Duplicate(String duplicate){
+        dupe = duplicate;
     }
 }

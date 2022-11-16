@@ -17,10 +17,8 @@ import projectClasses.*;
  *
  * @author kgonz
  */
-public class CodeDuplicateDetector extends javax.swing.JFrame 
-{
+public class CodeDuplicateDetector extends javax.swing.JFrame {
     boolean buttonClicked = false; //TODO remove, not needed maybe
-    String fileData = "";
     String filePath;
     File path;
     Boolean isJavaFile = false;
@@ -108,15 +106,16 @@ public class CodeDuplicateDetector extends javax.swing.JFrame
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(371, 371, 371)
+                .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(734, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(87, 87, 87)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 744, Short.MAX_VALUE)
                             .addComponent(jScrollPane2)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(371, 371, 371)
-                        .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(404, 404, 404)
                         .addComponent(button1))
@@ -125,8 +124,8 @@ public class CodeDuplicateDetector extends javax.swing.JFrame
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(14, 14, 14))
         );
         layout.setVerticalGroup(
@@ -143,12 +142,12 @@ public class CodeDuplicateDetector extends javax.swing.JFrame
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(38, 38, 38)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 512, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(38, Short.MAX_VALUE))
         );
 
@@ -162,102 +161,82 @@ public class CodeDuplicateDetector extends javax.swing.JFrame
            
             if(response == JFileChooser.APPROVE_OPTION){
                 filePath = submit_file.getSelectedFile().getAbsolutePath();
-                path = new File(filePath);
-               
-                //---------------------------
-                //This Java code reads in each word and puts it into the ArrayList:
-                //        Scanner s = null;
-                //        try {
-                //            s = new Scanner(new File(filePath));
-                //        } catch (FileNotFoundException ex) {
-                //            Logger.getLogger(JavaFile.class.getName()).log(Level.SEVERE, null, ex);
-                //        }
-                //ArrayList<String> list = new ArrayList<String>();
-                //
-                //while (s.hasNextLine()){
-                //    
-                //     //System.out.println("here!: " + Arrays.toString(list.toArray()));
-                //    list.add(s.nextLine());
-                //}
-                //s.close();
-                //---------------------------
-                // Scanner s = new Scanner(new File(filePath));
-                // Scanner s = new Scanner(new FileReader(filePath));
-                ArrayList<String> list = new ArrayList<String>();
-                //        try (BufferedReader br = new BufferedReader(new FileReader(filePath)))
-                //        {
-                //            String sCurrentLine;
-                //
-                //            while ((sCurrentLine = br.readLine()) != null) 
-                //            {
-                //                sCurrentLine =br.readLine();
-                //                
-                //                list.add(sCurrentLine);
-                //            }
-                //
-                //        } catch (IOException e) {
-                //            e.printStackTrace();
-                //        } 
-                //------------------------------------------
-    
-                BufferedReader reader;
-                        try {
-                                reader = new BufferedReader(new FileReader(filePath));
-                                String line = reader.readLine();
-                                while (line != null) {
-                                        System.out.println(line);
-                                        // read next line
-                                        line = reader.readLine();
+            
+                if(fileType(filePath).equals("java")){
+                    isJavaFile = true;
+                    String fileData = getFileData(filePath);
+                
+                    if(fileData != null){
+                        JavaFile fileDataCode = new JavaFile(fileData);
 
-                                        list.add(line);
-                                }
-                                reader.close();
-                        } catch (IOException e) {
-                                e.printStackTrace();
-                        }
+                        System.out.println("Opening source file from the path-> "+filePath);
+                        System.out.println(fileData);
 
-                        list.removeAll(Arrays.asList("", null, " ", " /**", " */"));
-                    //----------------------------------
-
-                       if(fileType(filePath).equals("java")){
-                           isJavaFile = true;
-                           JavaFile javaFile = new JavaFile(filePath);
-
-                           String dupResults = javaFile.scan(list);
-                         jTextArea1.setText(dupResults);
-                          String strReturn = Arrays.toString(list.toArray());
-                           System.out.println(strReturn);
-                           button2.setVisible(true);  
-                       }
-                       FileReader fr = null;
-
-                       try {
-                           fr = new FileReader(path);
-                       } catch (FileNotFoundException ex) {
-                           Logger.getLogger(CodeDuplicateDetector.class.getName()).log(Level.SEVERE, null, ex);
-                       }
-                       int c;
-                       try {
-                           while((c=fr.read()) != -1) 
-                               fileData += (char)c;
-                       } catch (IOException ex) {
-                           Logger.getLogger(CodeDuplicateDetector.class.getName()).log(Level.SEVERE, null, ex);
-                       }
-                       jTextArea2.setText(fileData);
-
-                       JavaFile fileDataCode = new JavaFile(fileData);
-
-                       System.out.println("Opening source file from the path-> "+path);
-                       System.out.println(fileData);
-
-                       jLabel1.setText("File submitted!");
-                       jLabel2.setText("Opening " + path);
-                       jTextArea2.setText(fileData);
-                   }
-                }
+                        jLabel1.setText("File submitted!");
+                        jLabel2.setText("Opening " + filePath);
+                        jTextArea2.setText(fileData);
+                        button2.setVisible(true);
+                    } else {
+                        jTextArea2.setText("File was not found. Try Again.");
+                    }
+                } else {
+                    jLabel2.setText(path + " is not a correct file type.");
+                }                
+            }
+        }
         buttonClicked = true;
     }//GEN-LAST:event_button1ActionPerformed
 
+    /**
+     * This method returns the contents of the file in a string
+     * @param filePath -> the path address of the file
+     * @return -> contents of file in String
+     */
+    private String getFileData(String filePath){
+        try {
+            FileReader fr = new FileReader(filePath);
+            String fileData = "";
+            int c;
+            while((c=fr.read()) != -1)
+                fileData += (char)c;
+            fr.close();
+            return fileData;
+        } catch (Exception ex) {
+            Logger.getLogger(CodeDuplicateDetector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    /**
+     * This method returns the lines in the file as an ArrayList
+     * @param filePath -> path address of the file
+     * @return  -> String ArrayList of lines in the file
+     */
+    private ArrayList<String> readFile(String filePath){
+        path = new File(filePath);
+               
+        ArrayList<String> list = new ArrayList<String>();
+
+        BufferedReader reader;
+        try {
+            reader = new BufferedReader(new FileReader(filePath));
+            String line = reader.readLine();
+            while (line != null) {
+                    System.out.println(line);
+                    // read next line
+                    line = reader.readLine();
+
+                    list.add(line);
+            }
+            reader.close();
+        } catch (IOException e) {
+                e.printStackTrace();
+        }
+
+        list.removeAll(Arrays.asList("", null, " ", " /**", " */"));
+        return list;
+    }
+    
     private ArrayList lineArray(String filePathLine) throws FileNotFoundException{
         //ArrayList<String> list = new ArrayList<String>();
         ArrayList<String> result = new ArrayList<>();
@@ -270,30 +249,40 @@ public class CodeDuplicateDetector extends javax.swing.JFrame
         }
     }
     
-    
     private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
       //TODO differentiate if java or cpp file type to call correct scan method in correct class
         if (evt.getSource()==button2 && buttonClicked == true){
             //calls ths JavaFile class method to scan the java file
-            if (isJavaFile){
-                JavaFile javaFile = new JavaFile(filePath);
-                jTextArea2.setText(fileData);
-                javaFile.scan();
-                button3.setVisible(true); 
-                jTextArea1.setVisible(true); 
-                jTextArea1.setEnabled(true); 
-                //TODO below is the results of the similiarity or duplication detected (%) and which lines it occured 
-                //in and will appear in the textArea on the right once the user clicks "scan" for the java files
-                //jTextArea1.setText(Dulpicate.resolve());
-            } 
-            else if (isCppFile) {
-                //TODO below is the results of the similiarity or duplication detected (%) and which lines it occured 
-                //in and will appear in the textArea on the right once the user clicks "scan" for the C files
-                // jTextArea1.setText(Dulpicate.resolve());
+            switch (fileType(filePath)) {
+                case "java" -> {
+                    ArrayList<String> list = readFile(filePath);
+
+                    JavaFile javaFile = new JavaFile(filePath);
+                    String dupResults = javaFile.scan(list);
+                    String strReturn = Arrays.toString(list.toArray());
+
+                    button3.setVisible(true);
+                    jTextArea1.setVisible(true);
+                    jTextArea1.setText(dupResults);
+                    System.out.println(strReturn);
+                    button2.setVisible(true);  
+                    jTextArea1.setEnabled(true);
+                    //TODO below is the results of the similiarity or duplication detected (%) and which lines it occured
+                    //in and will appear in the textArea on the right once the user clicks "scan" for the java files
+                    //jTextArea1.setText(Dulpicate.resolve());
+                }
+                case "cpp" -> {
+                    //TODO below is the results of the similiarity or duplication detected (%) and which lines it occured
+                    //in and will appear in the textArea on the right once the user clicks "scan" for the C files
+                    // jTextArea1.setText(Dulpicate.resolve());
+                }
+                default -> {
+                    jTextArea2.setText("Not a supported file type.");
+                }
             }
         }  
         else{
-            jTextArea2.setText("   Please choose a file first! ");
+            jTextArea2.setText("Please choose a file first! ");
         }
     }//GEN-LAST:event_button2ActionPerformed
 
@@ -384,6 +373,17 @@ public class CodeDuplicateDetector extends javax.swing.JFrame
         });
     }
 
+    /*
+    button1 -> Submit Files Button
+    button2 -> Scan Button
+    button3 -> Save Changes Button
+    jLabel1 -> 
+    jLabel2 -> Path Box
+    jScrollPane1 -> Final Code Box
+    jScrollPane2 -> Preview Box
+    jTextArea1 ->
+    jTextArea2 ->
+    */
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton button1;
     private javax.swing.JButton button2;

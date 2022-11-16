@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package projectClasses;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ import java.util.List;
  */
 public class Files{
     String name = null;
-    List<Duplicate> duplicateList = null;
+    ArrayList<Duplicate> duplicateList = new ArrayList<>();
     
     public Files (String n) {
         name = n;
