@@ -17,10 +17,8 @@ import projectClasses.*;
  *
  * @author kgonz
  */
-public class CodeDuplicateDetector extends javax.swing.JFrame 
-{
+public class CodeDuplicateDetector extends javax.swing.JFrame {
     boolean buttonClicked = false; //TODO remove, not needed maybe
-    String fileData = "";
     String filePath;
     File path;
     Boolean isJavaFile = false;
@@ -162,102 +160,78 @@ public class CodeDuplicateDetector extends javax.swing.JFrame
            
             if(response == JFileChooser.APPROVE_OPTION){
                 filePath = submit_file.getSelectedFile().getAbsolutePath();
-                path = new File(filePath);
-               
-                //---------------------------
-                //This Java code reads in each word and puts it into the ArrayList:
-                //        Scanner s = null;
-                //        try {
-                //            s = new Scanner(new File(filePath));
-                //        } catch (FileNotFoundException ex) {
-                //            Logger.getLogger(JavaFile.class.getName()).log(Level.SEVERE, null, ex);
-                //        }
-                //ArrayList<String> list = new ArrayList<String>();
-                //
-                //while (s.hasNextLine()){
-                //    
-                //     //System.out.println("here!: " + Arrays.toString(list.toArray()));
-                //    list.add(s.nextLine());
-                //}
-                //s.close();
-                //---------------------------
-                // Scanner s = new Scanner(new File(filePath));
-                // Scanner s = new Scanner(new FileReader(filePath));
-                ArrayList<String> list = new ArrayList<String>();
-                //        try (BufferedReader br = new BufferedReader(new FileReader(filePath)))
-                //        {
-                //            String sCurrentLine;
-                //
-                //            while ((sCurrentLine = br.readLine()) != null) 
-                //            {
-                //                sCurrentLine =br.readLine();
-                //                
-                //                list.add(sCurrentLine);
-                //            }
-                //
-                //        } catch (IOException e) {
-                //            e.printStackTrace();
-                //        } 
-                //------------------------------------------
-    
-                BufferedReader reader;
-                        try {
-                                reader = new BufferedReader(new FileReader(filePath));
-                                String line = reader.readLine();
-                                while (line != null) {
-                                        System.out.println(line);
-                                        // read next line
-                                        line = reader.readLine();
+                
+                ArrayList<String> list = readFile(filePath);
 
-                                        list.add(line);
-                                }
-                                reader.close();
-                        } catch (IOException e) {
-                                e.printStackTrace();
-                        }
-
-                        list.removeAll(Arrays.asList("", null, " ", " /**", " */"));
-                    //----------------------------------
-
-                       if(fileType(filePath).equals("java")){
-                           isJavaFile = true;
-                           JavaFile javaFile = new JavaFile(filePath);
-
-                           String dupResults = javaFile.scan(list);
-                         jTextArea1.setText(dupResults);
-                          String strReturn = Arrays.toString(list.toArray());
-                           System.out.println(strReturn);
-                           button2.setVisible(true);  
-                       }
-                       FileReader fr = null;
-
-                       try {
-                           fr = new FileReader(path);
-                       } catch (FileNotFoundException ex) {
-                           Logger.getLogger(CodeDuplicateDetector.class.getName()).log(Level.SEVERE, null, ex);
-                       }
-                       int c;
-                       try {
-                           while((c=fr.read()) != -1) 
-                               fileData += (char)c;
-                       } catch (IOException ex) {
-                           Logger.getLogger(CodeDuplicateDetector.class.getName()).log(Level.SEVERE, null, ex);
-                       }
-                       jTextArea2.setText(fileData);
-
-                       JavaFile fileDataCode = new JavaFile(fileData);
-
-                       System.out.println("Opening source file from the path-> "+path);
-                       System.out.println(fileData);
-
-                       jLabel1.setText("File submitted!");
-                       jLabel2.setText("Opening " + path);
-                       jTextArea2.setText(fileData);
-                   }
+                if(fileType(filePath).equals("java")){
+                    isJavaFile = true;
+                    JavaFile javaFile = new JavaFile(filePath);
+                    String dupResults = javaFile.scan(list);
+                    jTextArea1.setText(dupResults);
+                    String strReturn = Arrays.toString(list.toArray());
+                    System.out.println(strReturn);
+                    button2.setVisible(true);  
                 }
+                
+                String fileData = getFileData(filePath);
+                
+                if(fileData != null){
+                    JavaFile fileDataCode = new JavaFile(fileData);
+
+                    System.out.println("Opening source file from the path-> "+path);
+                    System.out.println(fileData);
+
+                    jLabel1.setText("File submitted!");
+                    jLabel2.setText("Opening " + path);
+                    jTextArea2.setText(fileData);
+                } else {
+                    jTextArea2.setText("File was not found. Try Again.");
+                }
+            }
+        }
         buttonClicked = true;
     }//GEN-LAST:event_button1ActionPerformed
 
+    public String getFileData(String filePath){
+        try {
+            FileReader fr = new FileReader(filePath);
+            String fileData = "";
+            int c;
+            while((c=fr.read()) != -1)
+                fileData += (char)c;
+            fr.close();
+            return fileData;
+        } catch (Exception ex) {
+            Logger.getLogger(CodeDuplicateDetector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public ArrayList<String> readFile(String filePath){
+        path = new File(filePath);
+               
+        ArrayList<String> list = new ArrayList<String>();
+
+        BufferedReader reader;
+        try {
+            reader = new BufferedReader(new FileReader(filePath));
+            String line = reader.readLine();
+            while (line != null) {
+                    System.out.println(line);
+                    // read next line
+                    line = reader.readLine();
+
+                    list.add(line);
+            }
+            reader.close();
+        } catch (IOException e) {
+                e.printStackTrace();
+        }
+
+        list.removeAll(Arrays.asList("", null, " ", " /**", " */"));
+        return list;
+    }
+    
     private ArrayList lineArray(String filePathLine) throws FileNotFoundException{
         //ArrayList<String> list = new ArrayList<String>();
         ArrayList<String> result = new ArrayList<>();
@@ -277,7 +251,7 @@ public class CodeDuplicateDetector extends javax.swing.JFrame
             //calls ths JavaFile class method to scan the java file
             if (isJavaFile){
                 JavaFile javaFile = new JavaFile(filePath);
-                jTextArea2.setText(fileData);
+                jTextArea2.setText(getFileData(filePath));
                 javaFile.scan();
                 button3.setVisible(true); 
                 jTextArea1.setVisible(true); 
@@ -384,6 +358,17 @@ public class CodeDuplicateDetector extends javax.swing.JFrame
         });
     }
 
+    /*
+    button1 -> Submit Files Button
+    button2 -> Scan Button
+    button3 -> Save Changes Button
+    jLabel1 -> 
+    jLabel2 -> Path Box
+    jScrollPane1 -> Final Code Box
+    jScrollPane2 -> Preview Box
+    jTextArea1 ->
+    jTextArea2 ->
+    */
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton button1;
     private javax.swing.JButton button2;
