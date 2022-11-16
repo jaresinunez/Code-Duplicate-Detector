@@ -10,7 +10,7 @@ import java.util.List;
  * This object represents the file the user uploads and will track the 
  * name, language, and list of found duplicates
  */
-public class Files {
+public class Files{
     String name = null;
     List<Duplicate> duplicateList = null;
 //    
