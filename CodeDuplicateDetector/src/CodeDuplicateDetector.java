@@ -1,23 +1,47 @@
-
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+import projectClasses.*;
 
 /**
  *
  * @author kgonz
  */
-public class CodeDuplicateDetector extends javax.swing.JFrame {
-
+public class CodeDuplicateDetector extends javax.swing.JFrame 
+{
+    boolean buttonClicked = false; //TODO remove, not needed maybe
+    String fileData = "";
+    String filePath;
+    File path;
+    Boolean isJavaFile = false;
+    Boolean isCppFile = false;
+    JFileChooser submit_file = new JFileChooser();
+    
     /**
      * Creates new form CodeDuplicateDetector
      */
-    public CodeDuplicateDetector() {
+    public CodeDuplicateDetector() 
+    {
         initComponents();
+        //TODO update use cases,  should not be any errors with choosing scan for duplication since 
+        //button doesnt appear until subimitted files
+        button3.setVisible(false);  
+        button2.setVisible(false);  
+        jTextArea1.setVisible(false); 
+        jTextArea1.setEnabled(false); 
+        CodeDuplicateDetector.this.revalidate();
+         CodeDuplicateDetector.this.repaint();
+        
     }
 
     /**
@@ -31,13 +55,21 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         button1 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
+        button2 = new javax.swing.JButton();
+        button3 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         setResizable(false);
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Please Submit a java source file");
+        jLabel1.setText("Please submit a file below.");
         jLabel1.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
 
         button1.setText("Submit Files");
@@ -47,6 +79,32 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jTextArea2.setColumns(20);
+        jTextArea2.setRows(5);
+        jScrollPane2.setViewportView(jTextArea2);
+
+        button2.setText("Scan to Detect Duplication");
+        button2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button2ActionPerformed(evt);
+            }
+        });
+
+        button3.setText("Save Changes");
+        button3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button3ActionPerformed(evt);
+            }
+        });
+
+        jTextArea1.setEditable(false);
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -54,48 +112,245 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(246, 246, 246)
-                        .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(87, 87, 87)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 744, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(167, 167, 167)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(186, 186, 186))
+                        .addGap(371, 371, 371)
+                        .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(404, 404, 404)
+                        .addComponent(button1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(325, 325, 325)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(122, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(39, 39, 39)
-                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(61, 61, 61))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 512, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
-                
-        
-        if (evt.getSource()==button1)
-        {
-            JFileChooser submit_file = new JFileChooser();
-            
-           // submit_file.showOpenDialog(null);
+        if (evt.getSource()==button1){     
+            int response = submit_file.showOpenDialog(null);
+            // int responseSave = submit_file.showSaveDialog(null);
            
-           int response = submit_file.showOpenDialog(null);
-           int responseSave = submit_file.showSaveDialog(null);
-           
-           if(responseSave == JFileChooser.APPROVE_OPTION)
-           {
-               File path = new File(submit_file.getSelectedFile().getAbsolutePath());
-               System.out.println(path);
-               jLabel1.setText("File submitted!");
-           }
+            if(response == JFileChooser.APPROVE_OPTION){
+                filePath = submit_file.getSelectedFile().getAbsolutePath();
+                path = new File(filePath);
+               
+                //---------------------------
+                //This Java code reads in each word and puts it into the ArrayList:
+                //        Scanner s = null;
+                //        try {
+                //            s = new Scanner(new File(filePath));
+                //        } catch (FileNotFoundException ex) {
+                //            Logger.getLogger(JavaFile.class.getName()).log(Level.SEVERE, null, ex);
+                //        }
+                //ArrayList<String> list = new ArrayList<String>();
+                //
+                //while (s.hasNextLine()){
+                //    
+                //     //System.out.println("here!: " + Arrays.toString(list.toArray()));
+                //    list.add(s.nextLine());
+                //}
+                //s.close();
+                //---------------------------
+                // Scanner s = new Scanner(new File(filePath));
+                // Scanner s = new Scanner(new FileReader(filePath));
+                ArrayList<String> list = new ArrayList<String>();
+                //        try (BufferedReader br = new BufferedReader(new FileReader(filePath)))
+                //        {
+                //            String sCurrentLine;
+                //
+                //            while ((sCurrentLine = br.readLine()) != null) 
+                //            {
+                //                sCurrentLine =br.readLine();
+                //                
+                //                list.add(sCurrentLine);
+                //            }
+                //
+                //        } catch (IOException e) {
+                //            e.printStackTrace();
+                //        } 
+                //------------------------------------------
+    
+                BufferedReader reader;
+                        try {
+                                reader = new BufferedReader(new FileReader(filePath));
+                                String line = reader.readLine();
+                                while (line != null) {
+                                        System.out.println(line);
+                                        // read next line
+                                        line = reader.readLine();
 
-        }
+                                        list.add(line);
+                                }
+                                reader.close();
+                        } catch (IOException e) {
+                                e.printStackTrace();
+                        }
+
+                        list.removeAll(Arrays.asList("", null, " ", " /**", " */"));
+                    //----------------------------------
+
+                       if(fileType(filePath).equals("java")){
+                           isJavaFile = true;
+                           JavaFile javaFile = new JavaFile(filePath);
+
+                           String dupResults = javaFile.scan(list);
+                         jTextArea1.setText(dupResults);
+                          String strReturn = Arrays.toString(list.toArray());
+                           System.out.println(strReturn);
+                           button2.setVisible(true);  
+                       }
+                       FileReader fr = null;
+
+                       try {
+                           fr = new FileReader(path);
+                       } catch (FileNotFoundException ex) {
+                           Logger.getLogger(CodeDuplicateDetector.class.getName()).log(Level.SEVERE, null, ex);
+                       }
+                       int c;
+                       try {
+                           while((c=fr.read()) != -1) 
+                               fileData += (char)c;
+                       } catch (IOException ex) {
+                           Logger.getLogger(CodeDuplicateDetector.class.getName()).log(Level.SEVERE, null, ex);
+                       }
+                       jTextArea2.setText(fileData);
+
+                       JavaFile fileDataCode = new JavaFile(fileData);
+
+                       System.out.println("Opening source file from the path-> "+path);
+                       System.out.println(fileData);
+
+                       jLabel1.setText("File submitted!");
+                       jLabel2.setText("Opening " + path);
+                       jTextArea2.setText(fileData);
+                   }
+                }
+        buttonClicked = true;
     }//GEN-LAST:event_button1ActionPerformed
 
+    private ArrayList lineArray(String filePathLine) throws FileNotFoundException{
+        //ArrayList<String> list = new ArrayList<String>();
+        ArrayList<String> result = new ArrayList<>();
+
+        try (Scanner s = new Scanner(new FileReader(filePathLine))) {
+            while (s.hasNext()) {
+                result.add(s.nextLine());
+            }
+            return result;
+        }
+    }
+    
+    
+    private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
+      //TODO differentiate if java or cpp file type to call correct scan method in correct class
+        if (evt.getSource()==button2 && buttonClicked == true){
+            //calls ths JavaFile class method to scan the java file
+            if (isJavaFile){
+                JavaFile javaFile = new JavaFile(filePath);
+                jTextArea2.setText(fileData);
+                javaFile.scan();
+                button3.setVisible(true); 
+               jTextArea1.setVisible(true); 
+                jTextArea1.setEnabled(true); 
+                 //TODO below is the results of the similiarity or duplication detected (%) and which lines it occured 
+                //in and will appear in the textArea on the right once the user clicks "scan" for the java files
+                //jTextArea1.setText(Dulpicate.resolve());
+            } 
+            else if (isCppFile) {
+                 //TODO below is the results of the similiarity or duplication detected (%) and which lines it occured 
+                //in and will appear in the textArea on the right once the user clicks "scan" for the C files
+               // jTextArea1.setText(Dulpicate.resolve());
+            }
+        }  
+        else{
+            jTextArea2.setText("   Please choose a file first! ");
+        }
+    }//GEN-LAST:event_button2ActionPerformed
+
+    private void button3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button3ActionPerformed
+        // Files saveFile = new Files(fileData);
+        // saveFile.Download(fileData);
+        
+        //TODO IF you make edits, then click scan for duplication, the changes made in the text area dissappear. 
+        //BUT this works only after hitting scan then making edits and saving. Fix!!
+        
+        //Below, this allows the user to save any edited changes to the main middle textArea to the same file selected
+        File fileName = new File(path+ "");
+      
+        BufferedWriter outFile = null;
+      
+        try {
+            outFile = new BufferedWriter(new FileWriter(fileName));
+            jTextArea2.write(outFile); 
+        } 
+        catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (outFile != null) {
+                try {
+                   outFile.close();
+                } catch (IOException e) {
+                   // the one time that I think that it's okay to leave this exception blank
+                }
+            }
+        }
+    }//GEN-LAST:event_button3ActionPerformed
+
+    private void stringDuplicatePercent()
+    {
+                
+    }
+    
+    public String fileType(String path){
+        String type = "";
+        
+        if(path.endsWith(".java")){
+            type = "java";
+        }
+        else if (path.endsWith(".cpp")){
+            type = "cpp";
+        }
+        else{
+            //TODO MAKE PRINTLN TO WINDOW TEXT AREA OR MAYBE AS A POP UP AND
+            //DONT ALLOW TEXT TO SHOW IN TEXT AREA
+            System.out.println("Error! Please submit a java or cpp file! ");
+            // System.exit(0);
+        }
+        return type;
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -133,6 +388,13 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton button1;
+    private javax.swing.JButton button2;
+    private javax.swing.JButton button3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextArea2;
     // End of variables declaration//GEN-END:variables
 }
