@@ -13,18 +13,12 @@ import java.util.List;
 public class Files{
     String name = null;
     List<Duplicate> duplicateList = null;
-//    
-//    Files () 
-//    {
-//    
-//    }
     
     public Files (String n) {
         name = n;
     }
     
-    public void Download(String newFileName) 
-    {
+    public void Download(String newFileName) {
         //TODO: Allow user to download new file under specified name
         
     }
