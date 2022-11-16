@@ -30,8 +30,7 @@ public class CodeDuplicateDetector extends javax.swing.JFrame
     /**
      * Creates new form CodeDuplicateDetector
      */
-    public CodeDuplicateDetector() 
-    {
+    public CodeDuplicateDetector() {
         initComponents();
         //TODO update use cases,  should not be any errors with choosing scan for duplication since 
         //button doesnt appear until subimitted files
@@ -40,8 +39,7 @@ public class CodeDuplicateDetector extends javax.swing.JFrame
         jTextArea1.setVisible(false); 
         jTextArea1.setEnabled(false); 
         CodeDuplicateDetector.this.revalidate();
-         CodeDuplicateDetector.this.repaint();
-        
+        CodeDuplicateDetector.this.repaint();       
     }
 
     /**
@@ -282,16 +280,16 @@ public class CodeDuplicateDetector extends javax.swing.JFrame
                 jTextArea2.setText(fileData);
                 javaFile.scan();
                 button3.setVisible(true); 
-               jTextArea1.setVisible(true); 
+                jTextArea1.setVisible(true); 
                 jTextArea1.setEnabled(true); 
-                 //TODO below is the results of the similiarity or duplication detected (%) and which lines it occured 
+                //TODO below is the results of the similiarity or duplication detected (%) and which lines it occured 
                 //in and will appear in the textArea on the right once the user clicks "scan" for the java files
                 //jTextArea1.setText(Dulpicate.resolve());
             } 
             else if (isCppFile) {
-                 //TODO below is the results of the similiarity or duplication detected (%) and which lines it occured 
+                //TODO below is the results of the similiarity or duplication detected (%) and which lines it occured 
                 //in and will appear in the textArea on the right once the user clicks "scan" for the C files
-               // jTextArea1.setText(Dulpicate.resolve());
+                // jTextArea1.setText(Dulpicate.resolve());
             }
         }  
         else{
