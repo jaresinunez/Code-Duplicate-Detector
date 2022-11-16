@@ -249,6 +249,28 @@ public class JavaFile extends Files{
         return x;
     }
     
+    public ArrayList<String> findVars(String line){
+        ArrayList<String> vars = new ArrayList<>();
+        int start = -1, end = -1;
+        Boolean parenthasesOpen = false;
+        for(int i = 0; i < line.length(); i++){
+            if(!parenthasesOpen && line.charAt(i) == '('){
+                parenthasesOpen = true;
+                start = i;
+            } else if(parenthasesOpen && line.charAt(i) == ')'){
+                parenthasesOpen = false;
+                end = i;
+            }
+            
+            if(start > -1 && end > -1){
+                vars.add(line.substring(start, end));
+                start = -1;
+                end = -1;
+            }
+        }
+        return vars;
+    }
+        
     public String createMethod(String availability, String returnType, String name, ArrayList<String> params, String content){
         String newMethod = availability + " " + returnType + " " + name + "(";
         
