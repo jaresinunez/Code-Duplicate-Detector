@@ -23,82 +23,67 @@ public class JavaFile extends Files{
     public JavaFile(String n){
         super(n);
     }
-   //String toReturn = "";
+    //String toReturn = "";
     ArrayList<String> toReturn = new ArrayList<String>();
     
-   // @Override
+    // @Override
     public String scan(ArrayList<String> fileData) {
-        
         //---------------------------
-                //TODO: scan the .java file for duplicates and add to the file's duplicates list
+        //TODO: scan the .java file for duplicates and add to the file's duplicates list
         //ArrayList<ArrayList<String>> fileData = getFileData();
         //        System.out.println(fileData);
         //---------------------------
-       // ArrayList<ArrayList<String>> fileData = getFileData();
-       // ArrayList<String> fileData = new ArrayList<String>();
+        // ArrayList<ArrayList<String>> fileData = getFileData();
+        // ArrayList<String> fileData = new ArrayList<String>();
 
-    for (int i = 0; i < fileData.size(); i++) 
-    {
-        
-        
-    for (int k = i + 1; k < fileData.size(); k++) 
-    {
-        if (fileData.get(i) != fileData.get( k))
-        {
-            System.out.println("at i: " + fileData.get( i));
-            System.out.println("at k: " + fileData.get( k)); 
-            //System.out.println(compute_Levenshtein_distanceDP(test.get( i), test.get( k)));
-            System.out.println("Your Strings are Matched="+percentage(fileData.get( i), fileData.get( k))+"%");
-          
-            
-            toReturn.add( "\nYour Strings are Matched="+ percentage(fileData.get( i), fileData.get( k))+"%");
+        for (int i = 0; i < fileData.size(); i++) {
+            for (int k = i + 1; k < fileData.size(); k++) 
+            {
+                if (fileData.get(i) != fileData.get( k))
+                {
+                    System.out.println("at i: " + fileData.get( i));
+                    System.out.println("at k: " + fileData.get( k)); 
+                    //System.out.println(compute_Levenshtein_distanceDP(test.get( i), test.get( k)));
+                    System.out.println("Your Strings are Matched="+percentage(fileData.get( i), fileData.get( k))+"%");
+
+
+                    toReturn.add( "\nYour Strings are Matched="+ percentage(fileData.get( i), fileData.get( k))+"%");
+                }
+            }
         }
-    }
-    //return null;
-    
-}
-    
-String strReturn = Arrays.toString(toReturn.toArray());
-  
-
+        String strReturn = Arrays.toString(toReturn.toArray());
         return strReturn;
     }
     
     
     public static int percentage(String s, String t) {
-
         int tWord = wordCount(s);
-        if (tWord != 0)
-       {
-        
-        int total = 100;
-        
-        int percentW = total / tWord;
-        int initPerWord = 0;
+        if (tWord != 0){
+            int total = 100;
+            int percentW = total / tWord;
+            int initPerWord = 0;
 
-        if (!s.equals(t)) {
-
-            for (int i = 1; i <= tWord; i++) {
-                if (simMatch(splitStr(s, i), t) == 1) {
-                    initPerWord = ((percentW * (total - 10)) / total) + initPerWord;
-                } else if (aTotalMatch(splitStr(s, i), t) == 1) {
-                    initPerWord = ((percentW * (total - 20)) / total) + initPerWord;
-                } else if (aMatch(splitStr(s, i), t) == 1) {
-                    initPerWord = ((percentW * (total - 30)) / total) + initPerWord;
-                } else {
-                    initPerWord = ((percentW * smart_match(splitStr(s, i), t)) / total) + initPerWord;
+            if (!s.equals(t)) {
+                for (int i = 1; i <= tWord; i++) {
+                    if (simMatch(splitStr(s, i), t) == 1) {
+                        initPerWord = ((percentW * (total - 10)) / total) + initPerWord;
+                    } else if (aTotalMatch(splitStr(s, i), t) == 1) {
+                        initPerWord = ((percentW * (total - 20)) / total) + initPerWord;
+                    } else if (aMatch(splitStr(s, i), t) == 1) {
+                        initPerWord = ((percentW * (total - 30)) / total) + initPerWord;
+                    } else {
+                        initPerWord = ((percentW * smart_match(splitStr(s, i), t)) / total) + initPerWord;
+                    }
                 }
+            } else {
+                initPerWord = 100;
             }
-        } else {
-            initPerWord = 100;
+            return initPerWord;
         }
-        return initPerWord;
-    }
-        else
-        {
+        else{
             return 0;
         }
-}
+    }
 
     public static int aMatch(String s, String t) {
         int x = 0;
@@ -176,7 +161,9 @@ String strReturn = Arrays.toString(toReturn.toArray());
         char[] ns = new char[3];
         //check if source char array has more then 3 characters//
         if (slen < 3) {
-        } else {
+            
+        } 
+        else {
             for (int i = 0; i < combs; i++) {
                 for (int j = 0; j < 3; j++) {
                     ns[j] = s[j + i];
@@ -201,7 +188,8 @@ String strReturn = Arrays.toString(toReturn.toArray());
         int x = 0;
         if (s.length > t.length) {
             return x;
-        } else {
+        } 
+        else {
             for (int i = 0; i <= z; i++) {
                 for (int j = 0; j <= (s.length - 1); j++) {
                     if (s[j] == t[j + i]) {
@@ -221,7 +209,6 @@ String strReturn = Arrays.toString(toReturn.toArray());
     }
 
     public static String splitStr(String s, int n) {
-
         int index;
         String temp;
         temp = s;
@@ -238,18 +225,18 @@ String strReturn = Arrays.toString(toReturn.toArray());
             temp2 = temp.substring(temp3, index);
             temp = temp.substring(index, strlen);
             temp = temp.trim();
-
         }
         return temp2;
     }
     
-        public static int wordCount(String s) {
+    public static int wordCount(String s) {
         int x = 1;
         int c;
         s = s.trim();
         if (s.isEmpty()) {
             x = 0;
-        } else {
+        } 
+        else {
             if (s.contains(" ")) {
                 for (;;) {
                     x++;
@@ -268,7 +255,6 @@ String strReturn = Arrays.toString(toReturn.toArray());
     
 
     public ArrayList<ArrayList<String>> getFileData(){
-
         //-------------------------------------------------
         try {
             ArrayList<ArrayList<String>> fileData = new ArrayList<>();

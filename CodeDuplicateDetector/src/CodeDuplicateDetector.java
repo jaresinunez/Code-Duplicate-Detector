@@ -30,8 +30,7 @@ public class CodeDuplicateDetector extends javax.swing.JFrame
     /**
      * Creates new form CodeDuplicateDetector
      */
-    public CodeDuplicateDetector() 
-    {
+    public CodeDuplicateDetector() {
         initComponents();
         //TODO update use cases,  should not be any errors with choosing scan for duplication since 
         //button doesnt appear until subimitted files
@@ -40,8 +39,7 @@ public class CodeDuplicateDetector extends javax.swing.JFrame
         jTextArea1.setVisible(false); 
         jTextArea1.setEnabled(false); 
         CodeDuplicateDetector.this.revalidate();
-         CodeDuplicateDetector.this.repaint();
-        
+        CodeDuplicateDetector.this.repaint();       
     }
 
     /**
@@ -158,132 +156,118 @@ public class CodeDuplicateDetector extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
-        if (evt.getSource()==button1)
-        {
-            
-
+        if (evt.getSource()==button1){     
+            int response = submit_file.showOpenDialog(null);
+            // int responseSave = submit_file.showSaveDialog(null);
            
-            
-           int response = submit_file.showOpenDialog(null);
-           // int responseSave = submit_file.showSaveDialog(null);
-           
-           if(response == JFileChooser.APPROVE_OPTION){
+            if(response == JFileChooser.APPROVE_OPTION){
+                filePath = submit_file.getSelectedFile().getAbsolutePath();
+                path = new File(filePath);
                
-               
-               
-               filePath = submit_file.getSelectedFile().getAbsolutePath();
-               path = new File(filePath);
-               
-               
-               
-           //---------------------------
-                    //This Java code reads in each word and puts it into the ArrayList:
-
-//        Scanner s = null;
-//        try {
-//            s = new Scanner(new File(filePath));
-//        } catch (FileNotFoundException ex) {
-//            Logger.getLogger(JavaFile.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//ArrayList<String> list = new ArrayList<String>();
-//
-//while (s.hasNextLine()){
-//    
-//     //System.out.println("here!: " + Arrays.toString(list.toArray()));
-//    list.add(s.nextLine());
-//}
-//s.close();
-            //---------------------------
-           // Scanner s = new Scanner(new File(filePath));
-           // Scanner s = new Scanner(new FileReader(filePath));
-ArrayList<String> list = new ArrayList<String>();
-//        try (BufferedReader br = new BufferedReader(new FileReader(filePath)))
-//        {
-//            String sCurrentLine;
-//
-//            while ((sCurrentLine = br.readLine()) != null) 
-//            {
-//                sCurrentLine =br.readLine();
-//                
-//                list.add(sCurrentLine);
-//            }
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } 
-
-        //------------------------------------------
+                //---------------------------
+                //This Java code reads in each word and puts it into the ArrayList:
+                //        Scanner s = null;
+                //        try {
+                //            s = new Scanner(new File(filePath));
+                //        } catch (FileNotFoundException ex) {
+                //            Logger.getLogger(JavaFile.class.getName()).log(Level.SEVERE, null, ex);
+                //        }
+                //ArrayList<String> list = new ArrayList<String>();
+                //
+                //while (s.hasNextLine()){
+                //    
+                //     //System.out.println("here!: " + Arrays.toString(list.toArray()));
+                //    list.add(s.nextLine());
+                //}
+                //s.close();
+                //---------------------------
+                // Scanner s = new Scanner(new File(filePath));
+                // Scanner s = new Scanner(new FileReader(filePath));
+                ArrayList<String> list = new ArrayList<String>();
+                //        try (BufferedReader br = new BufferedReader(new FileReader(filePath)))
+                //        {
+                //            String sCurrentLine;
+                //
+                //            while ((sCurrentLine = br.readLine()) != null) 
+                //            {
+                //                sCurrentLine =br.readLine();
+                //                
+                //                list.add(sCurrentLine);
+                //            }
+                //
+                //        } catch (IOException e) {
+                //            e.printStackTrace();
+                //        } 
+                //------------------------------------------
     
-        BufferedReader reader;
-		try {
-			reader = new BufferedReader(new FileReader(filePath));
-			String line = reader.readLine();
-			while (line != null) {
-				System.out.println(line);
-				// read next line
-				line = reader.readLine();
-                                
-                                list.add(line);
-			}
-			reader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-                
-                list.removeAll(Arrays.asList("", null, " ", " /**", " */"));
-            //----------------------------------
-               
-               if(fileType(filePath).equals("java")){
-                   isJavaFile = true;
-                   JavaFile javaFile = new JavaFile(filePath);
-                   
-                   String dupResults = javaFile.scan(list);
-                 jTextArea1.setText(dupResults);
-                  String strReturn = Arrays.toString(list.toArray());
-                   System.out.println(strReturn);
-                   button2.setVisible(true);  
-               }
-               FileReader fr = null;
-               
-               try {
-                   fr = new FileReader(path);
-               } catch (FileNotFoundException ex) {
-                   Logger.getLogger(CodeDuplicateDetector.class.getName()).log(Level.SEVERE, null, ex);
-               }
-               int c;
-               try {
-                   while((c=fr.read()) != -1) 
-                       fileData += (char)c;
-               } catch (IOException ex) {
-                   Logger.getLogger(CodeDuplicateDetector.class.getName()).log(Level.SEVERE, null, ex);
-               }
-               jTextArea2.setText(fileData);
+                BufferedReader reader;
+                        try {
+                                reader = new BufferedReader(new FileReader(filePath));
+                                String line = reader.readLine();
+                                while (line != null) {
+                                        System.out.println(line);
+                                        // read next line
+                                        line = reader.readLine();
 
-               JavaFile fileDataCode = new JavaFile(fileData);
-               
-               System.out.println("Opening source file from the path-> "+path);
-               System.out.println(fileData);
-               
-               jLabel1.setText("File submitted!");
-               jLabel2.setText("Opening " + path);
-               jTextArea2.setText(fileData);
-           }
-        }
-        
+                                        list.add(line);
+                                }
+                                reader.close();
+                        } catch (IOException e) {
+                                e.printStackTrace();
+                        }
+
+                        list.removeAll(Arrays.asList("", null, " ", " /**", " */"));
+                    //----------------------------------
+
+                       if(fileType(filePath).equals("java")){
+                           isJavaFile = true;
+                           JavaFile javaFile = new JavaFile(filePath);
+
+                           String dupResults = javaFile.scan(list);
+                         jTextArea1.setText(dupResults);
+                          String strReturn = Arrays.toString(list.toArray());
+                           System.out.println(strReturn);
+                           button2.setVisible(true);  
+                       }
+                       FileReader fr = null;
+
+                       try {
+                           fr = new FileReader(path);
+                       } catch (FileNotFoundException ex) {
+                           Logger.getLogger(CodeDuplicateDetector.class.getName()).log(Level.SEVERE, null, ex);
+                       }
+                       int c;
+                       try {
+                           while((c=fr.read()) != -1) 
+                               fileData += (char)c;
+                       } catch (IOException ex) {
+                           Logger.getLogger(CodeDuplicateDetector.class.getName()).log(Level.SEVERE, null, ex);
+                       }
+                       jTextArea2.setText(fileData);
+
+                       JavaFile fileDataCode = new JavaFile(fileData);
+
+                       System.out.println("Opening source file from the path-> "+path);
+                       System.out.println(fileData);
+
+                       jLabel1.setText("File submitted!");
+                       jLabel2.setText("Opening " + path);
+                       jTextArea2.setText(fileData);
+                   }
+                }
         buttonClicked = true;
     }//GEN-LAST:event_button1ActionPerformed
 
-    private ArrayList lineArray(String filePathLine) throws FileNotFoundException
-    {
-    //ArrayList<String> list = new ArrayList<String>();
-ArrayList<String> result = new ArrayList<>();
+    private ArrayList lineArray(String filePathLine) throws FileNotFoundException{
+        //ArrayList<String> list = new ArrayList<String>();
+        ArrayList<String> result = new ArrayList<>();
 
-try (Scanner s = new Scanner(new FileReader(filePathLine))) {
-    while (s.hasNext()) {
-        result.add(s.nextLine());
-    }
-    return result;
-}
+        try (Scanner s = new Scanner(new FileReader(filePathLine))) {
+            while (s.hasNext()) {
+                result.add(s.nextLine());
+            }
+            return result;
+        }
     }
     
     
@@ -296,19 +280,17 @@ try (Scanner s = new Scanner(new FileReader(filePathLine))) {
                 jTextArea2.setText(fileData);
                 javaFile.scan();
                 button3.setVisible(true); 
-               jTextArea1.setVisible(true); 
+                jTextArea1.setVisible(true); 
                 jTextArea1.setEnabled(true); 
-                 //TODO below is the results of the similiarity or duplication detected (%) and which lines it occured 
+                //TODO below is the results of the similiarity or duplication detected (%) and which lines it occured 
                 //in and will appear in the textArea on the right once the user clicks "scan" for the java files
                 //jTextArea1.setText(Dulpicate.resolve());
-               
-            } else if (isCppFile) 
-            {
-                 //TODO below is the results of the similiarity or duplication detected (%) and which lines it occured 
+            } 
+            else if (isCppFile) {
+                //TODO below is the results of the similiarity or duplication detected (%) and which lines it occured 
                 //in and will appear in the textArea on the right once the user clicks "scan" for the C files
-               // jTextArea1.setText(Dulpicate.resolve());
+                // jTextArea1.setText(Dulpicate.resolve());
             }
-            
         }  
         else{
             jTextArea2.setText("   Please choose a file first! ");
@@ -316,35 +298,32 @@ try (Scanner s = new Scanner(new FileReader(filePathLine))) {
     }//GEN-LAST:event_button2ActionPerformed
 
     private void button3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button3ActionPerformed
-
-       // Files saveFile = new Files(fileData);
-       // saveFile.Download(fileData);
+        // Files saveFile = new Files(fileData);
+        // saveFile.Download(fileData);
         
         //TODO IF you make edits, then click scan for duplication, the changes made in the text area dissappear. 
         //BUT this works only after hitting scan then making edits and saving. Fix!!
         
         //Below, this allows the user to save any edited changes to the main middle textArea to the same file selected
-       File fileName = new File(path+ "");
+        File fileName = new File(path+ "");
       
-      BufferedWriter outFile = null;
+        BufferedWriter outFile = null;
       
-      try {
-         outFile = new BufferedWriter(new FileWriter(fileName));
-
-         jTextArea2.write(outFile); 
-
-      } 
-      catch (IOException ex) {
-         ex.printStackTrace();
-      } finally {
-         if (outFile != null) {
-            try {
-               outFile.close();
-            } catch (IOException e) {
-               // the one time that I think that it's okay to leave this exception blank
+        try {
+            outFile = new BufferedWriter(new FileWriter(fileName));
+            jTextArea2.write(outFile); 
+        } 
+        catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (outFile != null) {
+                try {
+                   outFile.close();
+                } catch (IOException e) {
+                   // the one time that I think that it's okay to leave this exception blank
+                }
             }
-         }
-      }
+        }
     }//GEN-LAST:event_button3ActionPerformed
 
     private void stringDuplicatePercent()
@@ -352,27 +331,24 @@ try (Scanner s = new Scanner(new FileReader(filePathLine))) {
                 
     }
     
-    public String fileType(String path)
-    {
+    public String fileType(String path){
         String type = "";
         
-        if(path.endsWith(".java"))
-        {
+        if(path.endsWith(".java")){
             type = "java";
         }
-         else if (path.endsWith(".cpp"))
-        {
+        else if (path.endsWith(".cpp")){
             type = "cpp";
         }
-        else
-        {
+        else{
             //TODO MAKE PRINTLN TO WINDOW TEXT AREA OR MAYBE AS A POP UP AND
             //DONT ALLOW TEXT TO SHOW IN TEXT AREA
-           System.out.println("Error! Please submit a java or cpp file! ");
-          // System.exit(0);
+            System.out.println("Error! Please submit a java or cpp file! ");
+            // System.exit(0);
         }
         return type;
     }
+    
     /**
      * @param args the command line arguments
      */
@@ -406,7 +382,6 @@ try (Scanner s = new Scanner(new FileReader(filePathLine))) {
                 new CodeDuplicateDetector().setVisible(true);
             }
         });
-        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
