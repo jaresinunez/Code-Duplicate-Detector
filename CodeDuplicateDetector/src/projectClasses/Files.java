@@ -67,7 +67,7 @@ public class Files{
                     //System.out.println("at k: " + fileData.get( k)); 
                     //System.out.println(compute_Levenshtein_distance(test.get( i), test.get( k)));
                     int fortyPerPlus = percentage(fileData.get( i), fileData.get( k));
-                    if (fortyPerPlus >= 25){
+                    if (fortyPerPlus >= 40){
                         //System.out.println("Line "+i+": "+fileData.get( i) +"\nLine "+k+": "+fileData.get( k) 
                         //    +" match with "+percentage(fileData.get( i), fileData.get( k))
                         //    +"%\n---------------------------------------------------------------------------------------------------\n");             
@@ -149,7 +149,7 @@ public class Files{
         
         if (totalWord != 0)
         {
-            int total = 50;
+            int total = 100;
             int percentW = total / totalWord;
             int initPerWord = 0;
 
@@ -235,22 +235,22 @@ public class Files{
 
         int strLen = s.length;
         //looks at 3 chars combinations that match per word
-        int comboArr = (strLen - 3) + 1;
+        int comboArr = (strLen - 4) + 1;
         //combination percentage 
         int perc = 0;
-        if (strLen >= 3) {
+        if (strLen >= 4) {
             perc = 100 / comboArr;
         }
         
         int totPerc = 0; //total percentage
-        char[] tempSrc = new char[3];
+        char[] tempSrc = new char[4];
         //check if source char array has more then 3 characters
-        if (strLen < 3) {
+        if (strLen < 4) {
             
         } 
         else {
             for (int i = 0; i < comboArr; i++) {
-                for (int j = 0; j < 3; j++) {
+                for (int j = 0; j < 4; j++) {
                     tempSrc[j] = s[j + i];
                 }
                 if (charCompMatch(tempSrc, t) == 1) {
