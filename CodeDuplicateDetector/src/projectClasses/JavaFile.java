@@ -69,7 +69,7 @@ public class JavaFile extends Files{
     }
     
     public String alternateScan(ArrayList<String> data){
-       // ArrayList<ArrayList<String>> uniqueLinesAndCounts = new ArrayList<>();
+        // ArrayList<ArrayList<String>> uniqueLinesAndCounts = new ArrayList<>();
         // element 0 will have the lines
         // element 1 will have their counts
 
@@ -80,6 +80,10 @@ public class JavaFile extends Files{
         // uniqueLinesAndCounts.get(1).get(i) = string representing a number amount a line in the file was repeated
 
         for(int i = 0; i < data.size(); i++){
+            data.set(i,data.get(i).trim());
+            if(data.get(i).contains("//")){ // removing comments from the lines
+                data.set(i, data.get(i).substring(0, data.get(i).indexOf("//")));
+            }
             if(uniqueLinesAndCounts.size() == 0){
                 ArrayList<String> tempU = new ArrayList<>();
                 tempU.add(data.get(i));
@@ -92,26 +96,33 @@ public class JavaFile extends Files{
                 uniqueLinesAndCounts.get(0).add(data.get(i));
                 uniqueLinesAndCounts.get(1).add("1");
             }
+            else if(data.get(i).equals("}") || data.get(i).equals("{")){
+                //do nothing these should not be added to the lines of code list
+            }
             else{
                 int indexOfLine = uniqueLinesAndCounts.get(0).indexOf(data.get(i));
                 int currentCount = Integer.parseInt(uniqueLinesAndCounts.get(1).get(indexOfLine));
                 uniqueLinesAndCounts.get(1).set(indexOfLine, Integer.toString(currentCount + 1));
             }
-            System.out.println("Array so far:" + uniqueLinesAndCounts);
+            //System.out.println("Array so far:" + uniqueLinesAndCounts);
         }
-
-        ArrayList<String> addToString = new ArrayList<>();
         
-        String uniqLineCountsReturn = "  Line of code   |    Number Repeated   \n";
-        for(int i = 0; i < uniqueLinesAndCounts.size(); i++){
-            addToString.add("Line: " + uniqueLinesAndCounts.get(0).get(i) + "            |            Repeated: " 
+        //String uniqueLineConutsReturn = String.format("%30s%n", "Line of code and its recorded frequency");
+        
+        String uniqueLineCountsReturn = "Line of code and its recorded frequency\n";
+        for(int i = 0; i < uniqueLinesAndCounts.get(0).size(); i++){
+            //uniqueLineConutsReturn += String.format("| %-80s |%5s%n", uniqueLinesAndCounts.get(0).get(i), uniqueLinesAndCounts.get(1).get(i));
+            uniqueLineCountsReturn = uniqueLineCountsReturn.concat("----------------------------------------------------------\n");
+            uniqueLineCountsReturn = uniqueLineCountsReturn.concat(uniqueLinesAndCounts.get(0).get(i) + "\nRepeated: " 
                     + uniqueLinesAndCounts.get(1).get(i)+"\n");
         }
-                String strReturn = uniqLineCountsReturn + Arrays.toString(addToString.toArray())
-                .replace("[", "")
-                .replace("]", "")
-                .replace(",", "");
-        return strReturn;
+        
+                
+        //String strReturn = uniqueLineCountsReturn + Arrays.toString(addToString.toArray())
+        //.replace("[", "")
+        //.replace("]", "")
+        //.replace(",", "");
+        return uniqueLineCountsReturn;
     }
     
     public static int percentage(String s, String t) {

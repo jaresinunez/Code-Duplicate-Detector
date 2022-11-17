@@ -230,8 +230,15 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
                     System.out.println(line);
                     // read next line
                     line = reader.readLine();
-
-                    list.add(line);
+                    if (line != null) {
+                        line = line.trim();
+                        if(!line.equals("}") && !line.equals("{")){
+                            if(line.contains("//")){
+                                line = line.substring(0,line.indexOf("//"));
+                            }
+                            list.add(line);
+                        }
+                    } 
             }
             reader.close();
         } catch (IOException e) {
@@ -260,26 +267,22 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
             //calls ths JavaFile class method to scan the java file
             switch (fileType(filePath)) {
                 case "java" -> {
+                    //TODO below is the results of the similiarity or duplication detected (%) and which lines it occured
+                    //in and will appear in the textArea on the right once the user clicks "scan" for the java files
+                    //jTextArea1.setText(Dulpicate.resolve());
                     ArrayList<String> list = readFile(filePath);
 
                     JavaFile javaFile = new JavaFile(filePath);
                     String dupResults = javaFile.scan(list);
-                    //String strReturn = Arrays.toString(list.toArray());
-                    
                     String dupTable = javaFile.alternateScan(list);
 
-                    
                     jTextArea1.setVisible(true);
                     jTextArea1.setText(dupResults);
-                    //System.out.println(strReturn);
                     button2.setVisible(true);  
                     jTextArea1.setEnabled(true);
                     jTextArea3.setVisible(true);
                     jTextArea3.setText(dupTable);
-                    jTextArea3.setEnabled(true); 
-                    //TODO below is the results of the similiarity or duplication detected (%) and which lines it occured
-                    //in and will appear in the textArea on the right once the user clicks "scan" for the java files
-                    //jTextArea1.setText(Dulpicate.resolve());
+                    jTextArea3.setEnabled(true);
                 }
                 case "cpp" -> {
                     //TODO below is the results of the similiarity or duplication detected (%) and which lines it occured
