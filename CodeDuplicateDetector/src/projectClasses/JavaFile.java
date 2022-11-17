@@ -36,31 +36,49 @@ public class JavaFile extends Files{
         // ArrayList<ArrayList<String>> fileData = getFileData();
         // ArrayList<String> fileData = new ArrayList<String>();
         
+       // int iLine = 0;
+       // int kLine = 0;
         for (int i = 0; i < fileData.size(); i++) {
+           // iLine++;
             for (int k = i + 1; k < fileData.size(); k++) {
+               // kLine++;
                 if (fileData.get(i) != fileData.get( k)){
                     System.out.println("at i: " + fileData.get( i));
                     System.out.println("at k: " + fileData.get( k)); 
-                    //System.out.println(compute_Levenshtein_distanceDP(test.get( i), test.get( k)));
-                    System.out.println("Your Strings are Matched="+percentage(fileData.get( i), fileData.get( k))+"%");
-                    toReturn.add("\nYour Strings are Matched="+ percentage(fileData.get( i), fileData.get( k))+"%");
+                    //System.out.println(compute_Levenshtein_distance(test.get( i), test.get( k)));
+                    int fortyPerPlus = percentage(fileData.get( i), fileData.get( k));
+                    if (fortyPerPlus >= 25){
+                    System.out.println("Line "+i+": "+fileData.get( i) +"\nLine "+k+": "+fileData.get( k) 
+                            +" match with "+percentage(fileData.get( i), fileData.get( k))
+                            +"%\n---------------------------------------------------------------------------------------------------\n");             
+                    
+                    toReturn.add("Line "+(i+1)+": "+fileData.get( i) +"\nLine "+(k+1)+": "+fileData.get( k) 
+                            +"\nDuplication of "+percentage(fileData.get( i), fileData.get( k))
+                            +"%\n---------------------------------------------------------------------------------------------------\n");
+                    }
                 }
             }
         }
-        String strReturn = Arrays.toString(toReturn.toArray());
+        String strReturn = Arrays.toString(toReturn.toArray())
+                .replace("[", "")
+                .replace("]", "")
+                .replace(",", "");
+        //String strReturn = Arrays.toString(toReturn.toArray());
         return strReturn;
     }
     
     
     public static int percentage(String s, String t) {
-        int tWord = wordCount(s);
-        if (tWord != 0){
-            int total = 100;
-            int percentW = total / tWord;
+        int totalWord = wordCount(s);
+        
+        if (totalWord != 0)
+        {
+            int total = 50;
+            int percentW = total / totalWord;
             int initPerWord = 0;
 
             if (!s.equals(t)) {
-                for (int i = 1; i <= tWord; i++) {
+                for (int i = 1; i <= totalWord; i++) {
                     if (simMatch(splitStr(s, i), t) == 1) {
                         initPerWord = ((percentW * (total - 10)) / total) + initPerWord;
                     } else if (aTotalMatch(splitStr(s, i), t) == 1) {
@@ -68,7 +86,7 @@ public class JavaFile extends Files{
                     } else if (aMatch(splitStr(s, i), t) == 1) {
                         initPerWord = ((percentW * (total - 30)) / total) + initPerWord;
                     } else {
-                        initPerWord = ((percentW * smart_match(splitStr(s, i), t)) / total) + initPerWord;
+                        initPerWord = ((percentW * quickMatch(splitStr(s, i), t)) / total) + initPerWord;
                     }
                 }
             } else {
@@ -94,7 +112,6 @@ public class JavaFile extends Files{
         String tempt;
         int len = s.length();
 
-        //----------Work Body----------//
         for (int i = 1; i <= wordCount(t); i++) {
             tempt = splitStr(t, i);
             if (tempt.length() >= s.length()) {
@@ -105,7 +122,7 @@ public class JavaFile extends Files{
                 }
             }
         }
-        //---------END---------------//
+
         if (len == 0) {
             x = 0;
         }
@@ -114,63 +131,59 @@ public class JavaFile extends Files{
 
     public static int simMatch(String s, String t) {
         int x = 0;
-        String tempt;
+        String tempTStr;
         int len = s.length();
 
-
-        //----------Work Body----------//
         for (int i = 1; i <= wordCount(t); i++) {
-            tempt = splitStr(t, i);
-            if (tempt.length() == s.length()) {
-                if (s.contains(tempt)) {
+            tempTStr = splitStr(t, i);
+            if (tempTStr.length() == s.length()) {
+                if (s.contains(tempTStr)) {
                     x = 1;
                     break;
                 }
             }
         }
-        //---------END---------------//
+
         if (len == 0) {
             x = 0;
         }
         return x;
     }
     
-    public static int smart_match(String ts, String tt) {
+    public static int quickMatch(String ts, String tt) {
 
         char[] s = new char[ts.length()];
         s = ts.toCharArray();
         char[] t = new char[tt.length()];
         t = tt.toCharArray();
 
-
-        int slen = s.length;
-        //number of 3 combinations per word//
-        int combs = (slen - 3) + 1;
-        //percentage per combination of 3 characters//
-        int ppc = 0;
-        if (slen >= 3) {
-            ppc = 100 / combs;
+        int strLen = s.length;
+        //looks at 3 chars combinations that match per word
+        int comboArr = (strLen - 3) + 1;
+        //combination percentage 
+        int perc = 0;
+        if (strLen >= 3) {
+            perc = 100 / comboArr;
         }
-        //initialising an integer to store the total % this class genrate//
-        int x = 0;
-        //declaring a temporary new source char array
-        char[] ns = new char[3];
-        //check if source char array has more then 3 characters//
-        if (slen < 3) {
+        
+        int totPerc = 0; //total percentage
+        char[] tempSrc = new char[3];
+        //check if source char array has more then 3 characters
+        if (strLen < 3) {
             
         } 
         else {
-            for (int i = 0; i < combs; i++) {
+            for (int i = 0; i < comboArr; i++) {
                 for (int j = 0; j < 3; j++) {
-                    ns[j] = s[j + i];
+                    tempSrc[j] = s[j + i];
                 }
-                if (cross_full_match(ns, t) == 1) {
-                    x = x + 1;
+                if (charCompMatch(tempSrc, t) == 1) {
+                    totPerc = totPerc + 1;
                 }
             }
         }
-        x = ppc * x;
-        return x;
+        totPerc = perc * totPerc;
+        return totPerc;
     }
     
     /**
@@ -179,7 +192,7 @@ public class JavaFile extends Files{
      * @param t
      * @return
      */
-    public static int  cross_full_match(char[] s, char[] t) {
+    public static int  charCompMatch(char[] s, char[] t) {
         int z = t.length - s.length;
         int x = 0;
         if (s.length > t.length) {
@@ -192,7 +205,7 @@ public class JavaFile extends Files{
                        
                         x = 1;
                     } else {
-                        x = 0; // character gots not matches
+                        x = 0; // char has no similar or dupe matches
                         break;
                     }
                 }
