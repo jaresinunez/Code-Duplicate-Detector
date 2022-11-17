@@ -166,12 +166,11 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
             if(response == JFileChooser.APPROVE_OPTION){
                 filePath = submit_file.getSelectedFile().getAbsolutePath();
             
-                if(fileType(filePath).equals("java")){
-                    isJavaFile = true;
+                if(fileType(filePath).equals("java") || fileType(filePath).equals("cpp")){   
                     String fileData = getFileData(filePath);
                 
                     if(fileData != null){
-                        JavaFile fileDataCode = new JavaFile(fileData);
+                        Files fileDataCode = new Files(fileData);
 
                         System.out.println("Opening source file from the path-> "+filePath);
                         System.out.println(fileData);
@@ -181,6 +180,12 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
                         jTextArea2.setText(fileData);
                         button2.setVisible(true);
                         button3.setVisible(true);
+                        
+                        if(fileType(filePath).equals("java"))
+                            isJavaFile = true;  // suggest method
+                        else if (fileType(filePath).equals("cpp"))
+                            isCppFile = true;   //suggest method
+                        
                     } else {
                         jTextArea2.setText("File was not found. Try Again.");
                     }
@@ -265,24 +270,26 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
       //TODO differentiate if java or cpp file type to call correct scan method in correct class
         if (evt.getSource()==button2 && buttonClicked == true){
             //calls ths JavaFile class method to scan the java file
+            ArrayList<String> list = readFile(filePath);
+
+            Files userFile = new Files(filePath);
+            String dupResults = userFile.scan(list);
+            String dupTable = userFile.alternateScan(list);
+
+            jTextArea1.setVisible(true);
+            jTextArea1.setText(dupResults);
+            button2.setVisible(true);  
+            jTextArea1.setEnabled(true);
+            jTextArea3.setVisible(true);
+            jTextArea3.setText(dupTable);
+            jTextArea3.setEnabled(true);
+            
             switch (fileType(filePath)) {
                 case "java" -> {
                     //TODO below is the results of the similiarity or duplication detected (%) and which lines it occured
                     //in and will appear in the textArea on the right once the user clicks "scan" for the java files
                     //jTextArea1.setText(Dulpicate.resolve());
-                    ArrayList<String> list = readFile(filePath);
-
-                    JavaFile javaFile = new JavaFile(filePath);
-                    String dupResults = javaFile.scan(list);
-                    String dupTable = javaFile.alternateScan(list);
-
-                    jTextArea1.setVisible(true);
-                    jTextArea1.setText(dupResults);
-                    button2.setVisible(true);  
-                    jTextArea1.setEnabled(true);
-                    jTextArea3.setVisible(true);
-                    jTextArea3.setText(dupTable);
-                    jTextArea3.setEnabled(true);
+                    
                 }
                 case "cpp" -> {
                     //TODO below is the results of the similiarity or duplication detected (%) and which lines it occured
