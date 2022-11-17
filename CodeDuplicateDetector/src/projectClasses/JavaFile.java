@@ -25,6 +25,7 @@ public class JavaFile extends Files{
     }
     //String toReturn = "";
     ArrayList<String> toReturn = new ArrayList<>();
+    ArrayList<ArrayList<String>> uniqueLinesAndCounts = new ArrayList<>();
     
     // @Override
     public String scan(ArrayList<String> fileData) {
@@ -67,8 +68,8 @@ public class JavaFile extends Files{
         return strReturn;
     }
     
-    public static void alternateScan(ArrayList<String> data){
-        ArrayList<ArrayList<String>> uniqueLinesAndCounts = new ArrayList<>();
+    public String alternateScan(ArrayList<String> data){
+       // ArrayList<ArrayList<String>> uniqueLinesAndCounts = new ArrayList<>();
         // element 0 will have the lines
         // element 1 will have their counts
 
@@ -99,10 +100,18 @@ public class JavaFile extends Files{
             System.out.println("Array so far:" + uniqueLinesAndCounts);
         }
 
+        ArrayList<String> addToString = new ArrayList<>();
+        
+        String uniqLineCountsReturn = "  Line of code   |    Number Repeated   \n";
         for(int i = 0; i < uniqueLinesAndCounts.size(); i++){
-            System.out.println("Line: " + uniqueLinesAndCounts.get(0).get(i));
-            System.out.println("Repeated: " + uniqueLinesAndCounts.get(1).get(i));
+            addToString.add("Line: " + uniqueLinesAndCounts.get(0).get(i) + "            |            Repeated: " 
+                    + uniqueLinesAndCounts.get(1).get(i)+"\n");
         }
+                String strReturn = uniqLineCountsReturn + Arrays.toString(addToString.toArray())
+                .replace("[", "")
+                .replace("]", "")
+                .replace(",", "");
+        return strReturn;
     }
     
     public static int percentage(String s, String t) {
