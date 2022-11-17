@@ -51,6 +51,43 @@ public class JavaFile extends Files{
         return strReturn;
     }
     
+    public static void alternateScan(ArrayList<String> data){
+        ArrayList<ArrayList<String>> uniqueLinesAndCounts = new ArrayList<>();
+        // element 0 will have the lines
+        // element 1 will have their counts
+
+        // data.get(i) = string
+        // uniqueLinesAndCounts.get(0) = ArrayList<String> representing the lines in the file
+        // uniqueLinesAndCounts.get(0).get(i) = string representing a line in the file
+        // uniqueLinesAndCounts.get(1) = ArrayList<String> representing the amount of times a line was repeated in the file
+        // uniqueLinesAndCounts.get(1).get(i) = string representing a number amount a line in the file was repeated
+
+        for(int i = 0; i < data.size(); i++){
+            if(uniqueLinesAndCounts.size() == 0){
+                ArrayList<String> tempU = new ArrayList<>();
+                tempU.add(data.get(i));
+                uniqueLinesAndCounts.add(tempU);
+                ArrayList<String> tempN = new ArrayList<>();
+                tempN.add("1");
+                uniqueLinesAndCounts.add(tempN);
+            }
+            else if(!uniqueLinesAndCounts.get(0).contains(data.get(i))){
+                uniqueLinesAndCounts.get(0).add(data.get(i));
+                uniqueLinesAndCounts.get(1).add("1");
+            }
+            else{
+                int indexOfLine = uniqueLinesAndCounts.get(0).indexOf(data.get(i));
+                int currentCount = Integer.parseInt(uniqueLinesAndCounts.get(1).get(indexOfLine));
+                uniqueLinesAndCounts.get(1).set(indexOfLine, Integer.toString(currentCount + 1));
+            }
+            System.out.println("Array so far:" + uniqueLinesAndCounts);
+        }
+
+        for(int i = 0; i < uniqueLinesAndCounts.size(); i++){
+            System.out.println("Line: " + uniqueLinesAndCounts.get(0).get(i));
+            System.out.println("Repeated: " + uniqueLinesAndCounts.get(1).get(i));
+        }
+    }
     
     public static int percentage(String s, String t) {
         int tWord = wordCount(s);
