@@ -231,11 +231,11 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
                     // read next line
                     line = reader.readLine();
                     if (line != null) {
-                        line = line.trim();
                         if(!line.equals("}") && !line.equals("{")){
                             if(line.contains("//")){
                                 line = line.substring(0,line.indexOf("//"));
                             }
+                            line = line.trim();
                             list.add(line);
                         }
                     } 
