@@ -36,6 +36,8 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
         button2.setVisible(false);  
         jTextArea1.setVisible(false); 
         jTextArea1.setEnabled(false); 
+        jTextArea3.setVisible(false);
+        jTextArea3.setEnabled(false); 
         CodeDuplicateDetector.this.revalidate();
         CodeDuplicateDetector.this.repaint();       
     }
@@ -49,7 +51,6 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         button1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -58,16 +59,14 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
         button3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextArea3 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         setResizable(false);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Please submit a file below.");
-        jLabel1.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-
+        button1.setBackground(new java.awt.Color(209, 249, 209));
         button1.setText("Select File");
         button1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -75,13 +74,17 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jLabel2.setOpaque(true);
 
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
         jScrollPane2.setViewportView(jTextArea2);
 
+        button2.setBackground(new java.awt.Color(255, 235, 215));
         button2.setText("Scan to Detect Duplication");
         button2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -89,6 +92,7 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
             }
         });
 
+        button3.setBackground(new java.awt.Color(217, 235, 255));
         button3.setText("Save Changes");
         button3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -101,53 +105,54 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
+        jTextArea3.setColumns(20);
+        jTextArea3.setRows(5);
+        jScrollPane3.setViewportView(jTextArea3);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(317, 317, 317)
-                        .addComponent(button1)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(212, 212, 212)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 744, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane3)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(284, 284, 284)
-                                .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 744, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(238, 238, 238)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(22, 22, 22))))
+                            .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, 565, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 565, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 538, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(23, 23, 23))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(button2, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                    .addComponent(button1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1))
-                .addContainerGap(41, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15))
         );
 
         pack();
@@ -161,20 +166,26 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
             if(response == JFileChooser.APPROVE_OPTION){
                 filePath = submit_file.getSelectedFile().getAbsolutePath();
             
-                if(fileType(filePath).equals("java")){
-                    isJavaFile = true;
+                if(fileType(filePath).equals("java") || fileType(filePath).equals("cpp")){   
                     String fileData = getFileData(filePath);
                 
                     if(fileData != null){
-                        JavaFile fileDataCode = new JavaFile(fileData);
+                        Files fileDataCode = new Files(fileData);
 
                         System.out.println("Opening source file from the path-> "+filePath);
                         System.out.println(fileData);
 
-                        jLabel1.setText("File submitted!");
+                       // jLabel1.setText("File submitted!");
                         jLabel2.setText("Opening " + filePath);
                         jTextArea2.setText(fileData);
                         button2.setVisible(true);
+                        button3.setVisible(true);
+                        
+                        if(fileType(filePath).equals("java"))
+                            isJavaFile = true;  // suggest method
+                        else if (fileType(filePath).equals("cpp"))
+                            isCppFile = true;   //suggest method
+                        
                     } else {
                         jTextArea2.setText("File was not found. Try Again.");
                     }
@@ -224,8 +235,15 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
                     System.out.println(line);
                     // read next line
                     line = reader.readLine();
-
-                    list.add(line);
+                    if (line != null) {
+                        if(!line.equals("}") && !line.equals("{")){
+                            if(line.contains("//")){
+                                line = line.substring(0,line.indexOf("//"));
+                            }
+                            line = line.trim();
+                            list.add(line);
+                        }
+                    } 
             }
             reader.close();
         } catch (IOException e) {
@@ -252,23 +270,26 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
       //TODO differentiate if java or cpp file type to call correct scan method in correct class
         if (evt.getSource()==button2 && buttonClicked == true){
             //calls ths JavaFile class method to scan the java file
+            ArrayList<String> list = readFile(filePath);
+
+            Files userFile = new Files(filePath);
+            String dupResults = userFile.scan(list);
+            String dupTable = userFile.alternateScan(list);
+
+            jTextArea1.setVisible(true);
+            jTextArea1.setText(dupResults);
+            button2.setVisible(true);  
+            jTextArea1.setEnabled(true);
+            jTextArea3.setVisible(true);
+            jTextArea3.setText(dupTable);
+            jTextArea3.setEnabled(true);
+            
             switch (fileType(filePath)) {
                 case "java" -> {
-                    ArrayList<String> list = readFile(filePath);
-
-                    JavaFile javaFile = new JavaFile(filePath);
-                    String dupResults = javaFile.scan(list);
-                    String strReturn = Arrays.toString(list.toArray());
-
-                    button3.setVisible(true);
-                    jTextArea1.setVisible(true);
-                    jTextArea1.setText(dupResults);
-                    System.out.println(strReturn);
-                    button2.setVisible(true);  
-                    jTextArea1.setEnabled(true);
                     //TODO below is the results of the similiarity or duplication detected (%) and which lines it occured
                     //in and will appear in the textArea on the right once the user clicks "scan" for the java files
                     //jTextArea1.setText(Dulpicate.resolve());
+                    
                 }
                 case "cpp" -> {
                     //TODO below is the results of the similiarity or duplication detected (%) and which lines it occured
@@ -387,11 +408,12 @@ public class CodeDuplicateDetector extends javax.swing.JFrame {
     private javax.swing.JButton button1;
     private javax.swing.JButton button2;
     private javax.swing.JButton button3;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTextArea jTextArea3;
     // End of variables declaration//GEN-END:variables
 }
