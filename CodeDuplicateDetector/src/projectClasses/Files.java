@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package projectClasses;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -9,9 +5,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 
 /**
  * @author jares
@@ -28,75 +24,66 @@ public class Files{
         name = n;
     }
     
-    public void Download(String newFileName) {
-        //TODO: Allow user to download new file under specified name
-        
-    }
-    
-    public void scan() {
-        
-    }
     
     public void setName(String n) { this.name = n; }
     public String getName() { return this.name; }
     
     public void addDuplicate(Duplicate dupe) { duplicateList.add(dupe); }
     public void removeDuplicate(int index) { duplicateList.remove(index); }
-    public void resolveDuplicates() {
-        //TODO: iterate through list of duplicates prompting the user to indivate
-        //weather or not they would like to resolve duplicate at each index and doing so
-    }
     
+    /**
+     * Method scans or reads through the lines of code (string) and 
+     * calls other methods that uses an algorithm similar to the LevenshteinDistance.
+     * It also displays results on the duplication amount and the similarity 
+     * percent found based on ~40% or >70% over duplicate.
+     * 
+     * @param fileData src lines of code 
+     * @return the String code
+     */
     public String scan(ArrayList<String> fileData) {
-        //---------------------------
-        //TODO: scan the .java file for duplicates and add to the file's duplicates list
-        //ArrayList<ArrayList<String>> fileData = getFileData();
-        //        System.out.println(fileData);
-        //---------------------------
-        // ArrayList<ArrayList<String>> fileData = getFileData();
-        // ArrayList<String> fileData = new ArrayList<String>();
-        
-       // int iLine = 0;
-       // int kLine = 0;
+
+        //goes through each line 
         for (int i = 0; i < fileData.size(); i++) {
-           // iLine++;
+           
             for (int k = i + 1; k < fileData.size(); k++) {
-               // kLine++;
+              
                 if (fileData.get(i) != fileData.get( k)){
-                    //System.out.println("at i: " + fileData.get( i));
-                    //System.out.println("at k: " + fileData.get( k)); 
-                    //System.out.println(compute_Levenshtein_distance(test.get( i), test.get( k)));
-                    int fortyPerPlus = percentage(fileData.get( i), fileData.get( k));
-                    if (fortyPerPlus >= 40){
-                        //System.out.println("Line "+i+": "+fileData.get( i) +"\nLine "+k+": "+fileData.get( k) 
-                        //    +" match with "+percentage(fileData.get( i), fileData.get( k))
-                        //    +"%\n---------------------------------------------------------------------------------------------------\n");             
+
+                    int DupePerc = percentage(fileData.get( i), fileData.get( k));
                     
+                    //if % is between 48% and < 70%
+                    if (DupePerc >= 48 && DupePerc < 70){
                     toReturn.add("Line "+(i+1)+": "+fileData.get( i) +"\n" + "Line "+(k+1)+": "+fileData.get( k) 
-                            +"\nDuplication of "+percentage(fileData.get( i), fileData.get( k))
-                            +"%\n---------------------------------------------------------------------------------------------------\n");
+                            +"\nDuplication of "+percentage(fileData.get( i), fileData.get( k)) +"%"
+                            + "\n\n-> RECOMMENDED TO MAKE CHANGES"
+                            +"\n---------------------------------------------------------------------------------------------------\n");
                     }
+                    
+                    //if % is > or = to 70%
+                    if (DupePerc >= 70){
+                    toReturn.add("Line "+(i+1)+": "+fileData.get( i) +"\n" + "Line "+(k+1)+": "+fileData.get( k) 
+                            +"\nDuplication of "+percentage(fileData.get( i), fileData.get( k)) +"%"
+                            + "\n\n-> RECOMMENDED TO MAKE A METHOD"
+                            +"\n---------------------------------------------------------------------------------------------------\n");
+                    }
+                    
                 }
             }
         }
+        //Replaces/removes the symbols from the string
         String strReturn = Arrays.toString(toReturn.toArray())
                 .replace("[", "")
                 .replace("]", "")
                 .replace(",", "");
-        //String strReturn = Arrays.toString(toReturn.toArray());
         return strReturn;
     }
     
+    /**
+     * 
+     * @param data
+     * @return 
+     */
     public String alternateScan(ArrayList<String> data){
-        // ArrayList<ArrayList<String>> uniqueLinesAndCounts = new ArrayList<>();
-        // element 0 will have the lines
-        // element 1 will have their counts
-
-        // data.get(i) = string
-        // uniqueLinesAndCounts.get(0) = ArrayList<String> representing the lines in the file
-        // uniqueLinesAndCounts.get(0).get(i) = string representing a line in the file
-        // uniqueLinesAndCounts.get(1) = ArrayList<String> representing the amount of times a line was repeated in the file
-        // uniqueLinesAndCounts.get(1).get(i) = string representing a number amount a line in the file was repeated
 
         for(int i = 0; i < data.size(); i++){
             data.set(i,data.get(i).trim());
@@ -123,24 +110,19 @@ public class Files{
                 int currentCount = Integer.parseInt(uniqueLinesAndCounts.get(1).get(indexOfLine));
                 uniqueLinesAndCounts.get(1).set(indexOfLine, Integer.toString(currentCount + 1));
             }
-            //System.out.println("Array so far:" + uniqueLinesAndCounts);
+           
         }
         
-        //String uniqueLineConutsReturn = String.format("%30s%n", "Line of code and its recorded frequency");
+
         
         String uniqueLineCountsReturn = "Line of code and its recorded frequency\n";
         for(int i = 0; i < uniqueLinesAndCounts.get(0).size(); i++){
-            //uniqueLineConutsReturn += String.format("| %-80s |%5s%n", uniqueLinesAndCounts.get(0).get(i), uniqueLinesAndCounts.get(1).get(i));
+
             uniqueLineCountsReturn = uniqueLineCountsReturn.concat("----------------------------------------------------------\n");
             uniqueLineCountsReturn = uniqueLineCountsReturn.concat(uniqueLinesAndCounts.get(0).get(i) + "\nRepeated: " 
                     + uniqueLinesAndCounts.get(1).get(i)+"\n");
         }
-        
-                
-        //String strReturn = uniqueLineCountsReturn + Arrays.toString(addToString.toArray())
-        //.replace("[", "")
-        //.replace("]", "")
-        //.replace(",", "");
+
         return uniqueLineCountsReturn;
     }
     

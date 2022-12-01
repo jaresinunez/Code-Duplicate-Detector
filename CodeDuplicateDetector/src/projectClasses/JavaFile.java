@@ -1,19 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package projectClasses;
-import java.util.*;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.Arrays;
+
 
 /**
  * @author jares
@@ -23,7 +10,14 @@ public class JavaFile extends Files{
     public JavaFile(String n){
         super(n);
     }
- 
+    
+    
+    /**
+     * Finds where parentheses open and close from code submitted
+     * 
+     * @param line String line of codes
+     * @return new String lines
+     */
     public ArrayList<String> findVars(String line){
         ArrayList<String> vars = new ArrayList<>();
         int start = -1, end = -1;
@@ -46,6 +40,17 @@ public class JavaFile extends Files{
         return vars;
     }
         
+    /**
+     * Creates a new method based on the inside of the lines of code that 
+     * were detected as duplicated
+     * 
+     * @param availability
+     * @param returnType
+     * @param name
+     * @param params
+     * @param content
+     * @return 
+     */
     public String createMethod(String availability, String returnType, String name, ArrayList<String> params, String content){
         String newMethod = availability + " " + returnType + " " + name + "(";
         
